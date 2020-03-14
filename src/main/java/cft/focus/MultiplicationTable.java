@@ -1,3 +1,5 @@
+package cft.focus;
+
 public class MultiplicationTable {
 
     /*

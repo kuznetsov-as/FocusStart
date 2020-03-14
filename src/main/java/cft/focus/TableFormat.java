@@ -1,3 +1,5 @@
+package cft.focus;
+
 public class TableFormat {
 
     public static void printMultiplicationTable(String[][] tableValues, int tableSize) {
