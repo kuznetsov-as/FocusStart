@@ -8,7 +8,6 @@ public class MultiplicationTable {
      * @param tableSize размер таблицы
      * @return двумерный массив с таблицей умножения
      */
-
     public int[][] calculateMultiplication(int tableSize) {
 
         int[][] tableValues = new int[tableSize + 1][tableSize + 1];
@@ -29,14 +28,6 @@ public class MultiplicationTable {
                 tableValues[i][j] = i * j;
             }
         }
-
-        // Для отладки
-        /*for (String[] tableValue : tableValues) {
-            for (String s : tableValue) {
-                System.out.print(s + "\t");
-            }
-            System.out.println();
-        }*/
 
         return tableValues;
     }

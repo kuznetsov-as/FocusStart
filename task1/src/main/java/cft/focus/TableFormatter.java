@@ -1,10 +1,10 @@
 package cft.focus;
 
 public class TableFormatter {
-    private static final String SPACE = " ";
-    private static final String VERTICAL_LINE = "|";
-    private static final String PLUS = "+";
-    private static final String MINUS = "-";
+    private static final String SPACE_SEPARATOR = " ";
+    private static final String VERTICAL_LINE_SEPARATOR = "|";
+    private static final String CROSS_SEPARATOR = "+";
+    private static final String LINE_SEPARATOR = "-";
 
     public String formatForMultiplicationTable(int[][] tableValues, int tableSize) {
 
@@ -17,17 +17,16 @@ public class TableFormatter {
             for (int j = 0; j < tableValues.length; j++) {
 
                 for (int k = 0; k < separatorLength - String.valueOf(values[j]).length(); k++) {
-                    stringBuilder.append(SPACE);
+                    stringBuilder.append(SPACE_SEPARATOR);
                 }
 
                 if (values[j] == 0) {
-                    stringBuilder.append(SPACE);
-                }
-                else {
+                    stringBuilder.append(SPACE_SEPARATOR);
+                } else {
                     stringBuilder.append(values[j]);
                 }
 
-                stringBuilder.append(VERTICAL_LINE);
+                stringBuilder.append(VERTICAL_LINE_SEPARATOR);
             }
 
             // Удаляем лишнюю перегородку "|".
@@ -37,9 +36,9 @@ public class TableFormatter {
 
             for (int i = 0; i < tableValues.length; i++) {
                 for (int k = 0; k < separatorLength; k++) {
-                    stringBuilder.append(MINUS);
+                    stringBuilder.append(LINE_SEPARATOR);
                 }
-                stringBuilder.append(PLUS);
+                stringBuilder.append(CROSS_SEPARATOR);
             }
 
             // Удаляем лишний "+".
