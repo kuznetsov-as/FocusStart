@@ -1,6 +1,6 @@
 package cft.focus.model;
 
-public class Triangle implements GeneralCharacteristicsShape {
+public class Triangle extends Shape {
 
     private double lengthA;
     private double lengthB;
@@ -32,6 +32,26 @@ public class Triangle implements GeneralCharacteristicsShape {
     public double calculateArea() {
         double semiperimeter = calculatePerimeter() / 2;
         return Math.sqrt(semiperimeter * (semiperimeter - lengthA) * (semiperimeter - lengthB) * (semiperimeter - lengthC));
+    }
+
+    @Override
+    public String generateInformation() {
+        return "Тип фигуры: " + ShapeType.TRIANGLE.getShapeType() +
+                System.lineSeparator() +
+                "Площадь: " + Shape.informationFormatter.format(calculateArea()) + " кв. мм" +
+                System.lineSeparator() +
+                "Периметр: " + Shape.informationFormatter.format(calculatePerimeter()) + " мм" +
+                System.lineSeparator() +
+                "Длина стороны A: " + Shape.informationFormatter.format(getLengthA()) + " мм" +
+                System.lineSeparator() +
+                "Угол противолежащий стороне A: " + Shape.informationFormatter.format(calculateAngleOppositeTheSideA()) + " градусов" +
+                "Длина стороны B: " + Shape.informationFormatter.format(getLengthB()) + " мм" +
+                System.lineSeparator() +
+                "Угол противолежащий стороне B: " + Shape.informationFormatter.format(calculateAngleOppositeTheSideB()) + " градусов" +
+                System.lineSeparator() +
+                "Длина стороны C: " + Shape.informationFormatter.format(getLengthC()) + " мм" +
+                System.lineSeparator() +
+                "Угол противолежащий стороне C: " + Shape.informationFormatter.format(calculateAngleOppositeTheSideC()) + " градусов";
     }
 
     public double calculateAngleOppositeTheSideA() {

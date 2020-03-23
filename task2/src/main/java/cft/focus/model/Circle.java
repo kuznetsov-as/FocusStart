@@ -1,6 +1,6 @@
 package cft.focus.model;
 
-public class Circle implements GeneralCharacteristicsShape {
+public class Circle extends Shape {
 
     private double radius;
 
@@ -21,6 +21,19 @@ public class Circle implements GeneralCharacteristicsShape {
     @Override
     public double calculateArea() {
         return Math.PI * (radius * radius);
+    }
+
+    @Override
+    public String generateInformation() {
+        return "Тип фигуры: " + ShapeType.CIRCLE.getShapeType() +
+                System.lineSeparator() +
+                "Площадь: " + Shape.informationFormatter.format(calculateArea()) + " кв. мм" +
+                System.lineSeparator() +
+                "Периметр: " + Shape.informationFormatter.format(calculatePerimeter()) + " мм" +
+                System.lineSeparator() +
+                "Радиус: " + Shape.informationFormatter.format(getRadius()) + " мм" +
+                System.lineSeparator() +
+                "Диаметр: " + Shape.informationFormatter.format(calculateDiameter()) + " мм";
     }
 
     public double calculateDiameter() {

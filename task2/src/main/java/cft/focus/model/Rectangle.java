@@ -1,6 +1,6 @@
 package cft.focus.model;
 
-public class Rectangle implements GeneralCharacteristicsShape {
+public class Rectangle extends Shape {
 
     private double length;
     private double width;
@@ -23,6 +23,21 @@ public class Rectangle implements GeneralCharacteristicsShape {
     @Override
     public double calculateArea() {
         return length * width;
+    }
+
+    @Override
+    public String generateInformation() {
+        return "Тип фигуры: " + ShapeType.RECTANGLE.getShapeType() +
+                System.lineSeparator() +
+                "Площадь: " + Shape.informationFormatter.format(calculateArea()) + " кв. мм" +
+                System.lineSeparator() +
+                "Периметр: " + Shape.informationFormatter.format(calculatePerimeter()) + " мм" +
+                System.lineSeparator() +
+                "Длина диагонали: " + Shape.informationFormatter.format(calculateDiagonal()) + " мм" +
+                System.lineSeparator() +
+                "Длина: " + Shape.informationFormatter.format(getLength()) + " мм" +
+                System.lineSeparator() +
+                "Ширина: " + Shape.informationFormatter.format(getWidth()) + " мм";
     }
 
     public double calculateDiagonal() {

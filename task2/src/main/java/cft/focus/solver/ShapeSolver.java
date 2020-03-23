@@ -1,11 +1,11 @@
 package cft.focus.solver;
 
+import cft.focus.display.ConsoleShapeDisplay;
 import cft.focus.display.FileShapeDisplay;
 import cft.focus.display.ShapeDisplay;
-import cft.focus.model.ShapeType;
-import cft.focus.display.ConsoleShapeDisplay;
 import cft.focus.model.Circle;
 import cft.focus.model.Rectangle;
+import cft.focus.model.ShapeType;
 import cft.focus.model.Triangle;
 
 import java.io.BufferedReader;
@@ -17,12 +17,24 @@ public class ShapeSolver {
     public static void main(String[] args) {
 
         String fileName = "./task2/test.txt";
-        ShapeDisplay shapeDisplay;
+        ShapeDisplay shapeDisplay = null;
 
-        if (args[0].equals("-c")) {
+        if (args.length == 0) {
+            System.out.println("К сожалению, Вы не ввели параметр, запуск программы невозможен.");
+            System.out.println("Доступные параметры:");
+            System.out.println("\"-c\" - для вывода результатов в консоль");
+            System.out.println("\"-f\" - для вывода результатов в файл");
+            System.exit(1);
+        } else if (args.length > 1) {
+            System.out.println("Запуск программы возможен только с одним параметром.");
+            System.exit(1);
+        } else if (args[0].equals("-c")) {
             shapeDisplay = new ConsoleShapeDisplay();
-        } else {
+        } else if (args[0].equals("-f")) {
             shapeDisplay = new FileShapeDisplay();
+        } else {
+            System.out.println("Неверный формат параметра");
+            System.exit(1);
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
