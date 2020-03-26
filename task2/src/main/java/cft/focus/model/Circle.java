@@ -1,15 +1,16 @@
 package cft.focus.model;
 
+import cft.focus.exceptions.ModelException;
+
 public class Circle extends Shape {
 
     private double radius;
 
-    public Circle(double radius) {
-        if (radius > 0) {
+    public Circle(double radius) throws ModelException {
+        if (IsCircleConstructionPossible(radius)) {
             this.radius = radius;
         } else {
-            System.out.println("Радиус круга должен быть больше нуля");
-            System.exit(1);
+            throw new ModelException("Радиус круга должен быть больше нуля");
         }
     }
 
@@ -24,16 +25,15 @@ public class Circle extends Shape {
     }
 
     @Override
-    public String generateInformation() {
+    public String generateDetailedInformation() {
+
         return "Тип фигуры: " + ShapeType.CIRCLE.getShapeType() +
                 System.lineSeparator() +
-                "Площадь: " + Shape.informationFormatter.format(calculateArea()) + " кв. мм" +
+                this.generateGeneralInformation() +
                 System.lineSeparator() +
-                "Периметр: " + Shape.informationFormatter.format(calculatePerimeter()) + " мм" +
+                "Радиус: " + Shape.shapeInformationFormatter.format(getRadius()) + " мм" +
                 System.lineSeparator() +
-                "Радиус: " + Shape.informationFormatter.format(getRadius()) + " мм" +
-                System.lineSeparator() +
-                "Диаметр: " + Shape.informationFormatter.format(calculateDiameter()) + " мм";
+                "Диаметр: " + Shape.shapeInformationFormatter.format(calculateDiameter()) + " мм";
     }
 
     public double calculateDiameter() {
@@ -42,5 +42,9 @@ public class Circle extends Shape {
 
     public double getRadius() {
         return radius;
+    }
+
+    private boolean IsCircleConstructionPossible(double radius) {
+        return radius > 0;
     }
 }

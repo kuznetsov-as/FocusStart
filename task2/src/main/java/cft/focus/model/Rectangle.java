@@ -1,17 +1,18 @@
 package cft.focus.model;
 
+import cft.focus.exceptions.ModelException;
+
 public class Rectangle extends Shape {
 
     private double length;
     private double width;
 
-    public Rectangle(double length, double width) {
-        if (length > 0 && width > 0) {
+    public Rectangle(double length, double width) throws ModelException {
+        if (IsRectangleConstructionPossible(length, width)) {
             this.length = length;
             this.width = width;
         } else {
-            System.out.println("Длина и ширина прямоугольника должны быть больше нуля");
-            System.exit(1);
+            throw new ModelException("Длина и ширина прямоугольника должны быть больше нуля");
         }
     }
 
@@ -26,18 +27,16 @@ public class Rectangle extends Shape {
     }
 
     @Override
-    public String generateInformation() {
+    public String generateDetailedInformation() {
         return "Тип фигуры: " + ShapeType.RECTANGLE.getShapeType() +
                 System.lineSeparator() +
-                "Площадь: " + Shape.informationFormatter.format(calculateArea()) + " кв. мм" +
+                this.generateGeneralInformation() +
                 System.lineSeparator() +
-                "Периметр: " + Shape.informationFormatter.format(calculatePerimeter()) + " мм" +
+                "Длина диагонали: " + Shape.shapeInformationFormatter.format(calculateDiagonal()) + " мм" +
                 System.lineSeparator() +
-                "Длина диагонали: " + Shape.informationFormatter.format(calculateDiagonal()) + " мм" +
+                "Длина: " + Shape.shapeInformationFormatter.format(getLength()) + " мм" +
                 System.lineSeparator() +
-                "Длина: " + Shape.informationFormatter.format(getLength()) + " мм" +
-                System.lineSeparator() +
-                "Ширина: " + Shape.informationFormatter.format(getWidth()) + " мм";
+                "Ширина: " + Shape.shapeInformationFormatter.format(getWidth()) + " мм";
     }
 
     public double calculateDiagonal() {
@@ -50,5 +49,9 @@ public class Rectangle extends Shape {
 
     public double getLength() {
         return length;
+    }
+
+    private boolean IsRectangleConstructionPossible(double length, double width) {
+        return length > 0 && width > 0;
     }
 }

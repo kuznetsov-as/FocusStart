@@ -1,25 +1,21 @@
 package cft.focus.model;
 
+import cft.focus.exceptions.ModelException;
+
 public class Triangle extends Shape {
 
     private double lengthA;
     private double lengthB;
     private double lengthC;
 
-    public Triangle(double lengthA, double lengthB, double lengthC) {
+    public Triangle(double lengthA, double lengthB, double lengthC) throws ModelException {
 
-        if (lengthA < lengthB + lengthC && lengthB < lengthA + lengthC && lengthC < lengthA + lengthB) {
-            if (lengthA > 0 || lengthB > 0 || lengthC > 0) {
-                this.lengthA = lengthA;
-                this.lengthB = lengthB;
-                this.lengthC = lengthC;
-            } else {
-                System.out.println("Каждая из сторон треугольника должна быть больше нуля");
-                System.exit(1);
-            }
+        if (IsTriangleConstructionPossible(lengthA, lengthB, lengthC)) {
+            this.lengthA = lengthA;
+            this.lengthB = lengthB;
+            this.lengthC = lengthC;
         } else {
-            System.out.println("Невозможно построить треугольник с такими стронами");
-            System.exit(1);
+            throw new ModelException("Невозможно построить треугольник с такими стронами");
         }
     }
 
@@ -31,41 +27,48 @@ public class Triangle extends Shape {
     @Override
     public double calculateArea() {
         double semiperimeter = calculatePerimeter() / 2;
-        return Math.sqrt(semiperimeter * (semiperimeter - lengthA) * (semiperimeter - lengthB) * (semiperimeter - lengthC));
+        return Math.sqrt(semiperimeter * (semiperimeter - lengthA) * (semiperimeter - lengthB) *
+                (semiperimeter - lengthC));
     }
 
     @Override
-    public String generateInformation() {
+    public String generateDetailedInformation() {
         return "Тип фигуры: " + ShapeType.TRIANGLE.getShapeType() +
                 System.lineSeparator() +
-                "Площадь: " + Shape.informationFormatter.format(calculateArea()) + " кв. мм" +
+                this.generateGeneralInformation() +
                 System.lineSeparator() +
-                "Периметр: " + Shape.informationFormatter.format(calculatePerimeter()) + " мм" +
+                "Длина стороны A: " + Shape.shapeInformationFormatter.format(getLengthA()) + " мм" +
                 System.lineSeparator() +
-                "Длина стороны A: " + Shape.informationFormatter.format(getLengthA()) + " мм" +
+                "Угол противолежащий стороне A: " +
+                Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideA()) + " градусов" +
                 System.lineSeparator() +
-                "Угол противолежащий стороне A: " + Shape.informationFormatter.format(calculateAngleOppositeTheSideA()) + " градусов" +
-                "Длина стороны B: " + Shape.informationFormatter.format(getLengthB()) + " мм" +
+                "Длина стороны B: " +
+                Shape.shapeInformationFormatter.format(getLengthB()) + " мм" +
                 System.lineSeparator() +
-                "Угол противолежащий стороне B: " + Shape.informationFormatter.format(calculateAngleOppositeTheSideB()) + " градусов" +
+                "Угол противолежащий стороне B: " +
+                Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideB()) + " градусов" +
                 System.lineSeparator() +
-                "Длина стороны C: " + Shape.informationFormatter.format(getLengthC()) + " мм" +
+                "Длина стороны C: " + Shape.shapeInformationFormatter.format(getLengthC()) + " мм" +
                 System.lineSeparator() +
-                "Угол противолежащий стороне C: " + Shape.informationFormatter.format(calculateAngleOppositeTheSideC()) + " градусов";
+                "Угол противолежащий стороне C: " +
+                Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideC()) + " градусов";
     }
 
     public double calculateAngleOppositeTheSideA() {
-        double angle = Math.acos((lengthB * lengthB + lengthC * lengthC - lengthA * lengthA) / (2 * lengthB * lengthC));
+        double angle = Math.acos((lengthB * lengthB + lengthC * lengthC - lengthA * lengthA) /
+                (2 * lengthB * lengthC));
         return angle * 180 / Math.PI;
     }
 
     public double calculateAngleOppositeTheSideB() {
-        double angle = Math.acos((lengthA * lengthA + lengthC * lengthC - lengthB * lengthB) / (2 * lengthA * lengthC));
+        double angle = Math.acos((lengthA * lengthA + lengthC * lengthC - lengthB * lengthB) /
+                (2 * lengthA * lengthC));
         return angle * 180 / Math.PI;
     }
 
     public double calculateAngleOppositeTheSideC() {
-        double angle = Math.acos((lengthA * lengthA + lengthB * lengthB - lengthC * lengthC) / (2 * lengthA * lengthB));
+        double angle = Math.acos((lengthA * lengthA + lengthB * lengthB - lengthC * lengthC) /
+                (2 * lengthA * lengthB));
         return angle * 180 / Math.PI;
     }
 
@@ -79,5 +82,10 @@ public class Triangle extends Shape {
 
     public double getLengthC() {
         return lengthC;
+    }
+
+    private boolean IsTriangleConstructionPossible(double lengthA, double lengthB, double lengthC) {
+        return (lengthA < lengthB + lengthC && lengthB < lengthA + lengthC && lengthC < lengthA + lengthB) &&
+                (lengthA > 0 && lengthB > 0 && lengthC > 0);
     }
 }
