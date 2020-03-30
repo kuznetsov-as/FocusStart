@@ -6,9 +6,6 @@ import java.util.Locale;
 
 public abstract class Shape {
 
-    public static DecimalFormat shapeInformationFormatter = new DecimalFormat("#.##",
-            new DecimalFormatSymbols(Locale.ENGLISH));
-
     public abstract double calculatePerimeter();
 
     public abstract double calculateArea();
@@ -17,8 +14,13 @@ public abstract class Shape {
 
     public String generateGeneralInformation() {
 
-        return "Площадь: " + shapeInformationFormatter.format(calculateArea()) + " кв. мм" +
+        return "Площадь: " + shapeInformationFormatter.format(calculateArea()) + " кв. " + generalUnitOfMeasurement +
                 System.lineSeparator() +
-                "Периметр: " + shapeInformationFormatter.format(calculatePerimeter()) + " мм";
+                "Периметр: " + shapeInformationFormatter.format(calculatePerimeter()) + " " + generalUnitOfMeasurement;
     }
+
+    static DecimalFormat shapeInformationFormatter = new DecimalFormat("#.##",
+            new DecimalFormatSymbols(Locale.ENGLISH));
+
+    static String generalUnitOfMeasurement = "мм";
 }

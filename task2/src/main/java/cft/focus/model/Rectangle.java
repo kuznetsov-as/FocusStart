@@ -1,17 +1,21 @@
 package cft.focus.model;
 
 import cft.focus.exceptions.ModelException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Rectangle extends Shape {
 
-    private double length;
-    private double width;
+    private final double length;
+    private final double width;
 
-    public Rectangle(double length, double width) throws ModelException {
+    Rectangle(double length, double width) throws ModelException {
         if (IsRectangleConstructionPossible(length, width)) {
             this.length = length;
             this.width = width;
+            log.info("Прямоугольник создан");
         } else {
+            log.info("Не удалось создать прямоугольник");
             throw new ModelException("Длина и ширина прямоугольника должны быть больше нуля");
         }
     }
@@ -32,11 +36,14 @@ public class Rectangle extends Shape {
                 System.lineSeparator() +
                 this.generateGeneralInformation() +
                 System.lineSeparator() +
-                "Длина диагонали: " + Shape.shapeInformationFormatter.format(calculateDiagonal()) + " мм" +
+                "Длина диагонали: " + Shape.shapeInformationFormatter.format(calculateDiagonal()) + " " +
+                Shape.generalUnitOfMeasurement +
                 System.lineSeparator() +
-                "Длина: " + Shape.shapeInformationFormatter.format(getLength()) + " мм" +
+                "Длина: " + Shape.shapeInformationFormatter.format(getLength()) + " " +
+                Shape.generalUnitOfMeasurement +
                 System.lineSeparator() +
-                "Ширина: " + Shape.shapeInformationFormatter.format(getWidth()) + " мм";
+                "Ширина: " + Shape.shapeInformationFormatter.format(getWidth()) + " " +
+                Shape.generalUnitOfMeasurement;
     }
 
     public double calculateDiagonal() {

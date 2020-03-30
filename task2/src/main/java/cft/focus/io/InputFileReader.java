@@ -13,26 +13,28 @@ public class InputFileReader {
     private String shapeType;
     private double[] parameters;
 
-    public void readFile(String inputFileName) {
+    public void readFile(String inputFileName) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFileName))) {
             shapeType = reader.readLine();
-            String[] tempParameters = reader.readLine().split(" ");
+            String notSplitParameters = reader.readLine();
+
+            if (shapeType == null || notSplitParameters == null) {
+                throw new IOException();
+            }
+
+            String[] tempParameters = notSplitParameters.split(" ");
             parameters = new double[tempParameters.length];
+
             for (int i = 0; i < tempParameters.length; i++) {
                 parameters[i] = Double.parseDouble(tempParameters[i]);
             }
+
         } catch (FileNotFoundException exception) {
-            log.error("Не удается найти указанный файл. " + exception.getMessage(), exception);
-            exception.printStackTrace();
-            System.exit(1);
-        } catch (IOException exception) {
-            log.error("Невозможно прочитать данные из файла. " + exception.getMessage(), exception);
-            exception.printStackTrace();
-            System.exit(1);
-        } catch (NumberFormatException | NullPointerException exception) {
-            log.error("В файле неверно заданы параметры фигуры: " + exception.getMessage(), exception);
-            exception.printStackTrace();
-            System.exit(1);
+            log.error("Не удается найти указанный файл " + exception.getMessage(), exception);
+            throw exception;
+        } catch (IOException | NumberFormatException exception) {
+            log.error("В файле неверно заданы параметры фигуры ", exception);
+            throw exception;
         }
     }
 

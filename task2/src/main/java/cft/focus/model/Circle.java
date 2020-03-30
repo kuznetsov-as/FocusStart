@@ -1,15 +1,19 @@
 package cft.focus.model;
 
 import cft.focus.exceptions.ModelException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Circle extends Shape {
 
-    private double radius;
+    private final double radius;
 
-    public Circle(double radius) throws ModelException {
+    Circle(double radius) throws ModelException {
         if (IsCircleConstructionPossible(radius)) {
             this.radius = radius;
+            log.info("Круг создан");
         } else {
+            log.info("Не удалось создать круг");
             throw new ModelException("Радиус круга должен быть больше нуля");
         }
     }
@@ -31,9 +35,10 @@ public class Circle extends Shape {
                 System.lineSeparator() +
                 this.generateGeneralInformation() +
                 System.lineSeparator() +
-                "Радиус: " + Shape.shapeInformationFormatter.format(getRadius()) + " мм" +
+                "Радиус: " + Shape.shapeInformationFormatter.format(getRadius()) + " " + Shape.generalUnitOfMeasurement +
                 System.lineSeparator() +
-                "Диаметр: " + Shape.shapeInformationFormatter.format(calculateDiameter()) + " мм";
+                "Диаметр: " + Shape.shapeInformationFormatter.format(calculateDiameter()) + " " +
+                Shape.generalUnitOfMeasurement;
     }
 
     public double calculateDiameter() {

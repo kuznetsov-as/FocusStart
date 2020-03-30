@@ -1,20 +1,24 @@
 package cft.focus.model;
 
 import cft.focus.exceptions.ModelException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Triangle extends Shape {
 
-    private double lengthA;
-    private double lengthB;
-    private double lengthC;
+    private final double lengthA;
+    private final double lengthB;
+    private final double lengthC;
 
-    public Triangle(double lengthA, double lengthB, double lengthC) throws ModelException {
+    Triangle(double lengthA, double lengthB, double lengthC) throws ModelException {
 
         if (IsTriangleConstructionPossible(lengthA, lengthB, lengthC)) {
             this.lengthA = lengthA;
             this.lengthB = lengthB;
             this.lengthC = lengthC;
+            log.info("Треугольник создан");
         } else {
+            log.info("Не удалось создать треугольник");
             throw new ModelException("Невозможно построить треугольник с такими стронами");
         }
     }
@@ -37,18 +41,21 @@ public class Triangle extends Shape {
                 System.lineSeparator() +
                 this.generateGeneralInformation() +
                 System.lineSeparator() +
-                "Длина стороны A: " + Shape.shapeInformationFormatter.format(getLengthA()) + " мм" +
+                "Длина стороны A: " + Shape.shapeInformationFormatter.format(getLengthA()) + " " +
+                Shape.generalUnitOfMeasurement +
                 System.lineSeparator() +
                 "Угол противолежащий стороне A: " +
                 Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideA()) + " градусов" +
                 System.lineSeparator() +
                 "Длина стороны B: " +
-                Shape.shapeInformationFormatter.format(getLengthB()) + " мм" +
+                Shape.shapeInformationFormatter.format(getLengthB()) + " " +
+                Shape.generalUnitOfMeasurement +
                 System.lineSeparator() +
                 "Угол противолежащий стороне B: " +
                 Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideB()) + " градусов" +
                 System.lineSeparator() +
-                "Длина стороны C: " + Shape.shapeInformationFormatter.format(getLengthC()) + " мм" +
+                "Длина стороны C: " + Shape.shapeInformationFormatter.format(getLengthC()) + " " +
+                Shape.generalUnitOfMeasurement +
                 System.lineSeparator() +
                 "Угол противолежащий стороне C: " +
                 Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideC()) + " градусов";
