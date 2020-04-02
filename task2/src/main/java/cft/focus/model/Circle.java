@@ -9,7 +9,7 @@ public class Circle extends Shape {
     private final double radius;
 
     Circle(double radius) throws ModelException {
-        if (IsCircleConstructionPossible(radius)) {
+        if (isCircleConstructionPossible(radius)) {
             this.radius = radius;
             log.info("Круг создан");
         } else {
@@ -41,15 +41,15 @@ public class Circle extends Shape {
                 Shape.generalUnitOfMeasurement;
     }
 
-    public double calculateDiameter() {
+    private double calculateDiameter() {
         return radius + radius;
     }
 
-    public double getRadius() {
+    private double getRadius() {
         return radius;
     }
 
-    private boolean IsCircleConstructionPossible(double radius) {
+    private boolean isCircleConstructionPossible(double radius) {
         return radius > 0;
     }
 }

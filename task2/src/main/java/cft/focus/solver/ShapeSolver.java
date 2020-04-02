@@ -39,22 +39,17 @@ public class ShapeSolver {
         }
     }
 
-    public void solve(String inputFileName, String outputFileName, boolean isOutputInFile) throws ModelException, IOException {
+    private void solve(String inputFileName, String outputFileName, boolean isOutputInFile) throws ModelException, IOException {
 
         InputFileReader inputFileReader = new InputFileReader();
         inputFileReader.readFile(inputFileName);
 
         ShapeCreator shapeCreator = new ShapeCreator();
-        Shape resultShape;
+        Shape resultShape = shapeCreator.createShape(inputFileReader.getShapeType(), inputFileReader.getParameters());
 
-        resultShape = shapeCreator.createShape(inputFileReader.getShapeType(), inputFileReader.getParameters());
-
-        ShapeDisplay shapeDisplay;
-        if (isOutputInFile) {
-            shapeDisplay = new FileShapeDisplay(outputFileName);
-        } else {
-            shapeDisplay = new ConsoleShapeDisplay();
-        }
+        ShapeDisplay shapeDisplay = isOutputInFile
+                ? new FileShapeDisplay(outputFileName)
+                : new ConsoleShapeDisplay();
 
         shapeDisplay.print(resultShape);
     }

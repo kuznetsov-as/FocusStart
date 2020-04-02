@@ -10,7 +10,7 @@ public class Rectangle extends Shape {
     private final double width;
 
     Rectangle(double length, double width) throws ModelException {
-        if (IsRectangleConstructionPossible(length, width)) {
+        if (isRectangleConstructionPossible(length, width)) {
             this.length = length;
             this.width = width;
             log.info("Прямоугольник создан");
@@ -46,19 +46,19 @@ public class Rectangle extends Shape {
                 Shape.generalUnitOfMeasurement;
     }
 
-    public double calculateDiagonal() {
+    private double calculateDiagonal() {
         return Math.sqrt((length * length) + (width * width));
     }
 
-    public double getWidth() {
+    private double getWidth() {
         return width;
     }
 
-    public double getLength() {
+    private double getLength() {
         return length;
     }
 
-    private boolean IsRectangleConstructionPossible(double length, double width) {
+    private boolean isRectangleConstructionPossible(double length, double width) {
         return length > 0 && width > 0;
     }
 }

@@ -12,7 +12,7 @@ public class Triangle extends Shape {
 
     Triangle(double lengthA, double lengthB, double lengthC) throws ModelException {
 
-        if (IsTriangleConstructionPossible(lengthA, lengthB, lengthC)) {
+        if (isTriangleConstructionPossible(lengthA, lengthB, lengthC)) {
             this.lengthA = lengthA;
             this.lengthB = lengthB;
             this.lengthC = lengthC;
@@ -61,37 +61,37 @@ public class Triangle extends Shape {
                 Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideC()) + " градусов";
     }
 
-    public double calculateAngleOppositeTheSideA() {
+    private double calculateAngleOppositeTheSideA() {
         double angle = Math.acos((lengthB * lengthB + lengthC * lengthC - lengthA * lengthA) /
                 (2 * lengthB * lengthC));
         return angle * 180 / Math.PI;
     }
 
-    public double calculateAngleOppositeTheSideB() {
+    private double calculateAngleOppositeTheSideB() {
         double angle = Math.acos((lengthA * lengthA + lengthC * lengthC - lengthB * lengthB) /
                 (2 * lengthA * lengthC));
         return angle * 180 / Math.PI;
     }
 
-    public double calculateAngleOppositeTheSideC() {
+    private double calculateAngleOppositeTheSideC() {
         double angle = Math.acos((lengthA * lengthA + lengthB * lengthB - lengthC * lengthC) /
                 (2 * lengthA * lengthB));
         return angle * 180 / Math.PI;
     }
 
-    public double getLengthA() {
+    private double getLengthA() {
         return lengthA;
     }
 
-    public double getLengthB() {
+    private double getLengthB() {
         return lengthB;
     }
 
-    public double getLengthC() {
+    private double getLengthC() {
         return lengthC;
     }
 
-    private boolean IsTriangleConstructionPossible(double lengthA, double lengthB, double lengthC) {
+    private boolean isTriangleConstructionPossible(double lengthA, double lengthB, double lengthC) {
         return (lengthA < lengthB + lengthC && lengthB < lengthA + lengthC && lengthC < lengthA + lengthB) &&
                 (lengthA > 0 && lengthB > 0 && lengthC > 0);
     }
