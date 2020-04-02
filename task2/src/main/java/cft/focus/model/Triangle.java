@@ -41,24 +41,24 @@ public class Triangle extends Shape {
                 System.lineSeparator() +
                 this.generateGeneralInformation() +
                 System.lineSeparator() +
-                "Длина стороны A: " + Shape.shapeInformationFormatter.format(getLengthA()) + " " +
-                Shape.generalUnitOfMeasurement +
+                "Длина стороны A: " + Shape.SHAPE_INFORMATION_FORMATTER.format(getLengthA()) + " " +
+                Shape.GENERAL_UNIT_OF_MEASUREMENT +
                 System.lineSeparator() +
                 "Угол противолежащий стороне A: " +
-                Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideA()) + " градусов" +
+                Shape.SHAPE_INFORMATION_FORMATTER.format(calculateAngleOppositeTheSideA()) + " градусов" +
                 System.lineSeparator() +
                 "Длина стороны B: " +
-                Shape.shapeInformationFormatter.format(getLengthB()) + " " +
-                Shape.generalUnitOfMeasurement +
+                Shape.SHAPE_INFORMATION_FORMATTER.format(getLengthB()) + " " +
+                Shape.GENERAL_UNIT_OF_MEASUREMENT +
                 System.lineSeparator() +
                 "Угол противолежащий стороне B: " +
-                Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideB()) + " градусов" +
+                Shape.SHAPE_INFORMATION_FORMATTER.format(calculateAngleOppositeTheSideB()) + " градусов" +
                 System.lineSeparator() +
-                "Длина стороны C: " + Shape.shapeInformationFormatter.format(getLengthC()) + " " +
-                Shape.generalUnitOfMeasurement +
+                "Длина стороны C: " + Shape.SHAPE_INFORMATION_FORMATTER.format(getLengthC()) + " " +
+                Shape.GENERAL_UNIT_OF_MEASUREMENT +
                 System.lineSeparator() +
                 "Угол противолежащий стороне C: " +
-                Shape.shapeInformationFormatter.format(calculateAngleOppositeTheSideC()) + " градусов";
+                Shape.SHAPE_INFORMATION_FORMATTER.format(calculateAngleOppositeTheSideC()) + " градусов";
     }
 
     private double calculateAngleOppositeTheSideA() {

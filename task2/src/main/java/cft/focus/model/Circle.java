@@ -35,10 +35,11 @@ public class Circle extends Shape {
                 System.lineSeparator() +
                 this.generateGeneralInformation() +
                 System.lineSeparator() +
-                "Радиус: " + Shape.shapeInformationFormatter.format(getRadius()) + " " + Shape.generalUnitOfMeasurement +
+                "Радиус: " + Shape.SHAPE_INFORMATION_FORMATTER.format(getRadius()) + " " +
+                Shape.GENERAL_UNIT_OF_MEASUREMENT +
                 System.lineSeparator() +
-                "Диаметр: " + Shape.shapeInformationFormatter.format(calculateDiameter()) + " " +
-                Shape.generalUnitOfMeasurement;
+                "Диаметр: " + Shape.SHAPE_INFORMATION_FORMATTER.format(calculateDiameter()) + " " +
+                Shape.GENERAL_UNIT_OF_MEASUREMENT;
     }
 
     private double calculateDiameter() {

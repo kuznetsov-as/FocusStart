@@ -36,14 +36,14 @@ public class Rectangle extends Shape {
                 System.lineSeparator() +
                 this.generateGeneralInformation() +
                 System.lineSeparator() +
-                "Длина диагонали: " + Shape.shapeInformationFormatter.format(calculateDiagonal()) + " " +
-                Shape.generalUnitOfMeasurement +
+                "Длина диагонали: " + Shape.SHAPE_INFORMATION_FORMATTER.format(calculateDiagonal()) + " " +
+                Shape.GENERAL_UNIT_OF_MEASUREMENT +
                 System.lineSeparator() +
-                "Длина: " + Shape.shapeInformationFormatter.format(getLength()) + " " +
-                Shape.generalUnitOfMeasurement +
+                "Длина: " + Shape.SHAPE_INFORMATION_FORMATTER.format(getLength()) + " " +
+                Shape.GENERAL_UNIT_OF_MEASUREMENT +
                 System.lineSeparator() +
-                "Ширина: " + Shape.shapeInformationFormatter.format(getWidth()) + " " +
-                Shape.generalUnitOfMeasurement;
+                "Ширина: " + Shape.SHAPE_INFORMATION_FORMATTER.format(getWidth()) + " " +
+                Shape.GENERAL_UNIT_OF_MEASUREMENT;
     }
 
     private double calculateDiagonal() {
