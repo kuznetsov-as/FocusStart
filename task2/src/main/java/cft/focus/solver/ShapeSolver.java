@@ -1,11 +1,11 @@
 package cft.focus.solver;
 
-import cft.focus.display.ConsoleShapeDisplay;
-import cft.focus.display.FileShapeDisplay;
-import cft.focus.display.ShapeDisplay;
 import cft.focus.exceptions.ModelException;
 import cft.focus.exceptions.ParseException;
+import cft.focus.io.ConsoleShapeDisplay;
+import cft.focus.io.FileShapeDisplay;
 import cft.focus.io.InputFileReader;
+import cft.focus.io.ShapeDisplay;
 import cft.focus.model.Shape;
 import cft.focus.model.ShapeCreator;
 import cft.focus.parser.CommandLineArguments;

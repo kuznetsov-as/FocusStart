@@ -5,7 +5,7 @@ public enum ShapeType {
     RECTANGLE("Прямоугольник"),
     TRIANGLE("Треугольник");
 
-    private String shapeType;
+    private final String shapeType;
 
     ShapeType(String shapeType) {
         this.shapeType = shapeType;

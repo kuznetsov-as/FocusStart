@@ -1,4 +1,4 @@
-package cft.focus.display;
+package cft.focus.io;
 
 import cft.focus.model.Shape;
 

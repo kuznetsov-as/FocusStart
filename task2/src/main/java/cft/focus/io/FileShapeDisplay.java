@@ -1,4 +1,4 @@
-package cft.focus.display;
+package cft.focus.io;
 
 import cft.focus.model.Shape;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 @Slf4j
 public class FileShapeDisplay implements ShapeDisplay {
 
-    private String outputFileName;
+    private final String outputFileName;
 
     public FileShapeDisplay(String outputFileName) {
         this.outputFileName = outputFileName;
