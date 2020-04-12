@@ -17,9 +17,9 @@ public class CommandLineArguments {
         number = Integer.parseInt(args[0]);
         numberOfThreads = Integer.parseInt(args[1]);
 
-        if (numberOfThreads > number) {
+        if (numberOfThreads > number / 10) {
             throw new ParseException("Количество потоков обрабатывающих значения " +
-                    "не может превышать количество самих значений");
+                    "не может превышать 1/10 от количества самих значений");
 
         }
 

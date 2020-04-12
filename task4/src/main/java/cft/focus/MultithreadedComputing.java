@@ -14,14 +14,14 @@ public class MultithreadedComputing {
             log.info("Программа запущена");
 
             //Засекаем время
-            long time = System.currentTimeMillis();
+            long time = System.nanoTime();
 
             CommandLineArguments commandLineArguments = new CommandLineArguments();
             commandLineArguments.parsingArgument(args);
             new MultithreadedComputing().solve(commandLineArguments);
             log.info("Выполнение программы завершено успешно");
-            log.info("Время, затраченное на работу программы: " + (double) (System.currentTimeMillis() - time)
-                    + " миллисекунд");
+            time = System.nanoTime() - time;
+            log.info("Время, затраченное на работу программы: " + time/1_000_000.0);
         } catch (NumberFormatException | ParseException | InterruptedException e) {
             System.err.println(e.getMessage());
             log.error(e.getMessage(), e);
