@@ -13,15 +13,18 @@ public class MultithreadedComputing {
         try {
             log.info("Программа запущена");
 
+            CommandLineArguments commandLineArguments = new CommandLineArguments();
+            commandLineArguments.parsingArgument(args);
+
             //Засекаем время
             long time = System.nanoTime();
 
-            CommandLineArguments commandLineArguments = new CommandLineArguments();
-            commandLineArguments.parsingArgument(args);
             new MultithreadedComputing().solve(commandLineArguments);
             log.info("Выполнение программы завершено успешно");
+
             time = System.nanoTime() - time;
-            log.info("Время, затраченное на работу программы: " + time/1_000_000.0);
+            log.info("Время, затраченное на работу программы: " + (double) time / 1_000_000_000 + " сек.");
+
         } catch (NumberFormatException | ParseException | InterruptedException e) {
             System.err.println(e.getMessage());
             log.error(e.getMessage(), e);

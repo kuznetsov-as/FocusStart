@@ -4,8 +4,8 @@ import cft.focus.exceptions.ParseException;
 
 public class CommandLineArguments {
 
-    int number;
-    int numberOfThreads;
+    private int number;
+    private int numberOfThreads;
 
     public void parsingArgument(String[] args) throws NumberFormatException, ParseException {
 
@@ -14,8 +14,12 @@ public class CommandLineArguments {
                     "параметров ожидаемым значениям.");
         }
 
-        number = Integer.parseInt(args[0]);
-        numberOfThreads = Integer.parseInt(args[1]);
+        try {
+            number = Integer.parseInt(args[0]);
+            numberOfThreads = Integer.parseInt(args[1]);
+        } catch (NumberFormatException e) {
+            throw new ParseException("Входные данные имеют нецелочисленные значения");
+        }
 
         if (numberOfThreads > number / 10) {
             throw new ParseException("Количество потоков обрабатывающих значения " +

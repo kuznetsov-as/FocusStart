@@ -7,9 +7,9 @@ import java.math.BigInteger;
 @Slf4j
 public class Task implements Runnable {
 
-    int firstNumberInTheRange;
-    int lastNumberInTheRange;
-    BigInteger result = new BigInteger("0");
+    private final int firstNumberInTheRange;
+    private final int lastNumberInTheRange;
+    private BigInteger result = new BigInteger("0");
 
     public Task(int firstNumberInTheRange, int lastNumberInTheRange) {
         this.firstNumberInTheRange = firstNumberInTheRange;
