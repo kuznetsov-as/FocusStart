@@ -1,6 +1,6 @@
 package ru.cft.focus.minesweeper.model;
 
-public class GameCell {
+class GameCell {
     final int row;
     final int column;
     boolean isFlag;

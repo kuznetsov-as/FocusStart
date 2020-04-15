@@ -6,7 +6,7 @@ import ru.cft.focus.minesweeper.view.MinesweeperView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MinesweeperViewNotifier {
+class MinesweeperViewNotifier {
     private final List<MinesweeperView> minesweeperViews = new ArrayList<>();
 
     void attachView(MinesweeperView minesweeperView) {

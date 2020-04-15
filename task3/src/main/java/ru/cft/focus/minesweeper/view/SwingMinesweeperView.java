@@ -54,7 +54,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         setLocationRelativeTo(null);
     }
 
-    public void initMenuBar() {
+    private void initMenuBar() {
         MenuHelper.initGameMenu(this);
     }
 

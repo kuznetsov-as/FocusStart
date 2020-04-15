@@ -11,14 +11,14 @@ import ru.cft.focus.minesweeper.view.SwingMinesweeperView;
 public class MinesweeperSolver {
     public static void main(String[] args) {
         log.info("Программа запущена");
-        new MinesweeperSolver().solve(GameSetting.EASY);
+        new MinesweeperSolver().solve();
     }
 
-    public void solve(GameSetting gameSetting) {
+    private void solve() {
 
-        MinesweeperGame minesweeperGame = new MinesweeperGame(gameSetting.getRowNumber(), gameSetting.getColumnNumber(), gameSetting.getCountMines());
+        MinesweeperGame minesweeperGame = new MinesweeperGame(GameSetting.EASY.getRowNumber(), GameSetting.EASY.getColumnNumber(), GameSetting.EASY.getCountMines());
         MinesweeperController minesweeperController = new MinesweeperController(minesweeperGame);
-        MinesweeperView minesweeperView = new SwingMinesweeperView(minesweeperController, gameSetting.getRowNumber(), gameSetting.getColumnNumber());
+        MinesweeperView minesweeperView = new SwingMinesweeperView(minesweeperController, GameSetting.EASY.getRowNumber(), GameSetting.EASY.getColumnNumber());
 
         minesweeperGame.attachView(minesweeperView);
         minesweeperGame.startNewGame();

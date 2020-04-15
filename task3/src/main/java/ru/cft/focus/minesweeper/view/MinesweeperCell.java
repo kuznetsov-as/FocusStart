@@ -2,7 +2,7 @@ package ru.cft.focus.minesweeper.view;
 
 import javax.swing.*;
 
-public class MinesweeperCell extends JLabel {
+class MinesweeperCell extends JLabel {
     private final int row;
     private final int column;
 

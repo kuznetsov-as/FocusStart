@@ -3,10 +3,10 @@ package ru.cft.focus.minesweeper.model;
 import java.io.Serializable;
 
 public class Record implements Serializable, Comparable<Record> {
-    String name;
-    String time;
+    private String name;
+    private String time;
 
-    public Record(String name, String time) {
+    Record(String name, String time) {
         this.name = name;
         this.time = time;
     }

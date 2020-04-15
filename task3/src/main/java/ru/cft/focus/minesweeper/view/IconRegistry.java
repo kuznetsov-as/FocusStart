@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class IconRegistry {
+class IconRegistry {
     private final Map<String, ImageIcon> cellIconMap = new HashMap<>();
 
-    public IconRegistry() {
+    IconRegistry() {
 
         cellIconMap.put("pentagram", new ImageIcon(IconRegistry.class.getResource("/images/flag.png")));
 

@@ -2,9 +2,9 @@ package ru.cft.focus.minesweeper.view;
 
 import javax.swing.*;
 
-public class MenuHelper {
+class MenuHelper {
 
-    public static void initGameMenu(SwingMinesweeperView view) {
+    static void initGameMenu(SwingMinesweeperView view) {
 
 
         JMenuBar menuBar = new JMenuBar();

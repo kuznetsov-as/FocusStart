@@ -5,7 +5,7 @@ import ru.cft.focus.minesweeper.model.Record;
 
 import javax.swing.*;
 @Slf4j
-public class MessagePane extends JOptionPane {
+class MessagePane extends JOptionPane {
 
     void sayNoImageFound() {
         log.info("Не удалось найти иконку");

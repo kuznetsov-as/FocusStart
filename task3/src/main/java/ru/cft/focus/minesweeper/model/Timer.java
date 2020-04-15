@@ -9,10 +9,10 @@ import java.awt.event.ActionListener;
 @Slf4j
 public class Timer implements ActionListener {
 
-    int second = 0;
-    int minutes = 0;
-    javax.swing.Timer timer = new javax.swing.Timer(1000, this);
-    JTextArea textArea;
+    private int second = 0;
+    private int minutes = 0;
+    private javax.swing.Timer timer = new javax.swing.Timer(1000, this);
+    private JTextArea textArea;
 
     public JTextArea initTextAreaWithTimer(){
 
