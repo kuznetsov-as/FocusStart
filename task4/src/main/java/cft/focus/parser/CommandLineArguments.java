@@ -7,7 +7,7 @@ public class CommandLineArguments {
     private int number;
     private int numberOfThreads;
 
-    public void parsingArgument(String[] args) throws NumberFormatException, ParseException {
+    public void parseArguments(String[] args) throws NumberFormatException, ParseException {
 
         if (args.length != 2) {
             throw new ParseException("Запуск программы невозможен в связи с несоотвествием количества исходных " +

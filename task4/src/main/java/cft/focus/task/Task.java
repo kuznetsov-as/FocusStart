@@ -9,7 +9,7 @@ public class Task implements Runnable {
 
     private final int firstNumberInTheRange;
     private final int lastNumberInTheRange;
-    private BigInteger result = new BigInteger("0");
+    private BigInteger result = BigInteger.ZERO;
 
     public Task(int firstNumberInTheRange, int lastNumberInTheRange) {
         this.firstNumberInTheRange = firstNumberInTheRange;
@@ -22,10 +22,12 @@ public class Task implements Runnable {
 
     @Override
     public void run() {
-        log.info("Поток который вычислял значения с " + firstNumberInTheRange + " до " + lastNumberInTheRange + " начал работу.");
+        log.info("Поток который вычислял значения с " + firstNumberInTheRange + " до " +
+                lastNumberInTheRange + " начал работу.");
         for (int i = firstNumberInTheRange; i <= lastNumberInTheRange; i++) {
             result = result.add(BigInteger.valueOf((long) Math.pow(i, 2)));
         }
-        log.info("Поток который вычислял значения с " + firstNumberInTheRange + " до " + lastNumberInTheRange + " завершил работу.");
+        log.info("Поток который вычислял значения с " + firstNumberInTheRange + " до " +
+                lastNumberInTheRange + " завершил работу.");
     }
 }

@@ -6,6 +6,7 @@ import cft.focus.task.Task;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigInteger;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class MultithreadedComputing {
@@ -14,7 +15,7 @@ public class MultithreadedComputing {
             log.info("Программа запущена");
 
             CommandLineArguments commandLineArguments = new CommandLineArguments();
-            commandLineArguments.parsingArgument(args);
+            commandLineArguments.parseArguments(args);
 
             //Засекаем время
             long time = System.nanoTime();
@@ -23,7 +24,8 @@ public class MultithreadedComputing {
             log.info("Выполнение программы завершено успешно");
 
             time = System.nanoTime() - time;
-            log.info("Время, затраченное на работу программы: " + (double) time / 1_000_000_000 + " сек.");
+            log.info("Время, затраченное на работу программы: " +
+                    TimeUnit.NANOSECONDS.toMillis(time) + " мс.");
 
         } catch (NumberFormatException | ParseException | InterruptedException e) {
             System.err.println(e.getMessage());
@@ -32,7 +34,7 @@ public class MultithreadedComputing {
         }
     }
 
-    public void solve(CommandLineArguments commandLineArguments) throws InterruptedException {
+    private void solve(CommandLineArguments commandLineArguments) throws InterruptedException {
         Thread[] threads = new Thread[commandLineArguments.getNumberOfThreads()];
         Task[] tasks = new Task[threads.length];
 
@@ -43,6 +45,9 @@ public class MultithreadedComputing {
             tasks[i] = new Task(firstNumberInTheRange, lastNumberInTheRange);
             int gap = commandLineArguments.getNumber() / commandLineArguments.getNumberOfThreads();
             firstNumberInTheRange = lastNumberInTheRange + 1;
+            //Когда доходим до предпоследнего элемента (task.length - 2) устанавливаем
+            //lastNumberInTheRange в максимальное значение, чтобы присвоить его последнему элементу
+            //независимо от размера предыдущих интервалов
             if (i == tasks.length - 2) {
                 lastNumberInTheRange = commandLineArguments.getNumber();
             } else {
@@ -59,7 +64,7 @@ public class MultithreadedComputing {
             thread.join();
         }
 
-        BigInteger result = new BigInteger("0");
+        BigInteger result = BigInteger.ZERO;
         for (Task task : tasks) {
             result = result.add(task.getResult());
         }
