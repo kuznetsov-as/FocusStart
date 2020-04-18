@@ -10,11 +10,17 @@ class IconRegistry {
 
     IconRegistry() {
 
-        cellIconMap.put("pentagram", new ImageIcon(IconRegistry.class.getResource("/images/flag.png")));
+        cellIconMap.put("pentagram", new ImageIcon(
+                IconRegistry.class.getResource("/images/flag.png")));
 
-        cellIconMap.put("grave", new ImageIcon(IconRegistry.class.getResource("/images/grave.png")));
+        cellIconMap.put("question", new ImageIcon(
+                IconRegistry.class.getResource("/images/question.png")));
 
-        cellIconMap.put("zombi", new ImageIcon(IconRegistry.class.getResource("/images/zombi.png")));
+        cellIconMap.put("grave", new ImageIcon(
+                IconRegistry.class.getResource("/images/grave.png")));
+
+        cellIconMap.put("zombi", new ImageIcon(
+                IconRegistry.class.getResource("/images/zombi.png")));
 
         cellIconMap.put("open grave", new ImageIcon(
                 IconRegistry.class.getResource("/images/open_grave.png")));

@@ -92,13 +92,17 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON2) {
-                            minesweeperController.handleClickedWheelButtonOnCell(cell.getRow(),
-                                    cell.getColumn());
+                            if (!isFirstOpened[0]) {
+                                minesweeperController.handleClickedWheelButtonOnCell(cell.getRow(),
+                                        cell.getColumn());
+                            }
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
-                            minesweeperController.handleClickedRightButtonOnCell(cell.getRow(),
-                                    cell.getColumn());
+                            if (!isFirstOpened[0]) {
+                                minesweeperController.handleClickedRightButtonOnCell(cell.getRow(),
+                                        cell.getColumn());
+                            }
                         }
                     }
                 });

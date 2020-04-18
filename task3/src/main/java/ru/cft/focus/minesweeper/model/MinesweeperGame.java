@@ -59,7 +59,12 @@ public class MinesweeperGame {
         if (gameCells[row][column].isFlag) {
             gameCells[row][column].isFlag = false;
             countFlags++;
-            log.info("Пользователь убрал флаг с ячейки под координатами " + row + " : " + column);
+            log.info("Пользователь поставил вопрос для ячейки под координатами " + row + " : " + column);
+            gameCells[row][column].isQuestion = true;
+            viewNotifier.notifyViewAboutCellStatusChanged(row, column, CellType.QUESTION);
+        } else if (gameCells[row][column].isQuestion) {
+            gameCells[row][column].isQuestion = false;
+            log.info("Пользователь убрал вопрос с ячейки под координатами " + row + " : " + column);
             viewNotifier.notifyViewAboutCellStatusChanged(row, column, CellType.CLOSE_CELL);
         } else {
             gameCells[row][column].isFlag = true;

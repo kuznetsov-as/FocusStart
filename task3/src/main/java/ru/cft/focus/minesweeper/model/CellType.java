@@ -6,6 +6,7 @@ public enum CellType {
 
     MINE(CellCode.MINE),
     FLAG(CellCode.FLAG),
+    QUESTION(CellCode.QUESTION),
     CLOSE_CELL(CellCode.CLOSE_CELL),
     OPEN_CELL(CellCode.OPEN_CELL),
     OPEN_CELL_WITH_THE_NUMBER_1(CellCode.OPEN_CELL_WITH_THE_NUMBER_1),

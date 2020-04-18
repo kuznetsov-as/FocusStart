@@ -4,6 +4,7 @@ class GameCell {
     final int row;
     final int column;
     boolean isFlag;
+    boolean isQuestion;
     boolean isMine;
     boolean isOpen;
     int countMineNeighbors;

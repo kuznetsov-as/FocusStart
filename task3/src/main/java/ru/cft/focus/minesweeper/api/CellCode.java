@@ -3,6 +3,7 @@ package ru.cft.focus.minesweeper.api;
 public class CellCode {
     public static final String MINE = "zombi";
     public static final String FLAG = "pentagram";
+    public static final String QUESTION = "question";
     public static final String CLOSE_CELL = "grave";
     public static final String OPEN_CELL = "open grave";
     public static final String OPEN_CELL_WITH_THE_NUMBER_1 = "open grave with the number 1";
