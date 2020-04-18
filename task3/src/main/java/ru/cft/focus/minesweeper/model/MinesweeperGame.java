@@ -29,7 +29,6 @@ public class MinesweeperGame {
         this.countClosedCells = this.rowNumber * this.columnNumber;
         this.gameCells = new GameCell[this.rowNumber][this.columnNumber];
         this.countFlags = this.countMines;
-        initializeGameCells(rowNumber, columnNumber);
     }
 
     public void startNewGame() {
@@ -250,12 +249,10 @@ public class MinesweeperGame {
         countClosedCells = rowNumber * columnNumber;
         gameCells = new GameCell[rowNumber][columnNumber];
         countFlags = this.countMines;
-
-        initializeGameCells(rowNumber, columnNumber);
         viewNotifier.notifyViewsRestartGame(gameSetting);
     }
 
-    private void initializeGameCells(int rowNumber, int columnNumber) {
+    public void initializeGameCells(int firstOpenCellRow, int firstOpenCellColumn) {
         log.info("Производится инициализация ячеек на поле");
         for (int i = 0; i < rowNumber; i++) {
             for (int j = 0; j < columnNumber; j++) {
@@ -268,7 +265,9 @@ public class MinesweeperGame {
             int row = (int) (Math.random() * rowNumber);
             int column = (int) (Math.random() * columnNumber);
 
-            if (gameCells[row][column].isMine) {
+            // Если рандомная мина оказывается в первой ячейке, на которую кликнул пользователь,
+            // или рандомная мина несколько раз попала в одну ячейку, то подбираем другие координаты
+            if (gameCells[row][column].isMine || (firstOpenCellRow == row && firstOpenCellColumn == column)) {
                 i--;
             } else {
                 gameCells[row][column] = new GameCell(row, column, true);

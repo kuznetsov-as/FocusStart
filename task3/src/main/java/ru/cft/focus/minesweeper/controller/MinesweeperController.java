@@ -27,6 +27,10 @@ public class MinesweeperController {
         minesweeperGame.openCell(row, column);
     }
 
+    public void initializeGameCells(int firstOpenCellRow, int firstOpenCellColumn) {
+        minesweeperGame.initializeGameCells(firstOpenCellRow, firstOpenCellColumn);
+    }
+
     public void exit() {
         System.exit(0);
     }
@@ -36,27 +40,27 @@ public class MinesweeperController {
         minesweeperGame.restartGame(gameSetting);
     }
 
-    public Record[] getRecords(GameSetting gameSetting){
-        return minesweeperGame.getRecords(gameSetting);
-    }
-
-    public JTextArea initTextAreaWithTimer(){
+    public JTextArea initTextAreaWithTimer() {
         return timer.initTextAreaWithTimer();
     }
 
-    public void startTimer(){
+    public void startTimer() {
         timer.startTimer();
     }
 
-    public void  stopTimer(){
+    public void stopTimer() {
         timer.stopTimer();
     }
 
-    public String askTimerForTime(){
+    public String askTimerForTime() {
         return timer.getTime();
     }
 
-    public void writeRecord(String name, String time, GameSetting gameSetting){
+    public Record[] getRecords(GameSetting gameSetting) {
+        return minesweeperGame.getRecords(gameSetting);
+    }
+
+    public void writeRecord(String name, String time, GameSetting gameSetting) {
         minesweeperGame.addRecord(name, time, gameSetting);
     }
 }

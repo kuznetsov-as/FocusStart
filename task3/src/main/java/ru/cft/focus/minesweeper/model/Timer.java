@@ -14,7 +14,7 @@ public class Timer implements ActionListener {
     private javax.swing.Timer timer = new javax.swing.Timer(1000, this);
     private JTextArea textArea;
 
-    public JTextArea initTextAreaWithTimer(){
+    public JTextArea initTextAreaWithTimer() {
 
         textArea = new JTextArea();
         textArea.setEditable(false);
@@ -23,19 +23,19 @@ public class Timer implements ActionListener {
         return textArea;
     }
 
-    public void startTimer(){
+    public void startTimer() {
         timer.start();
         log.info("Таймер запущен");
     }
 
-    public void stopTimer(){
+    public void stopTimer() {
         second = 0;
         minutes = 0;
         timer.stop();
         log.info("Таймер остановлен");
     }
 
-    public String getTime(){
+    public String getTime() {
         return textArea.getText();
     }
 

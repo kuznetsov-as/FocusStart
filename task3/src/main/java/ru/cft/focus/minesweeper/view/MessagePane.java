@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import ru.cft.focus.minesweeper.model.Record;
 
 import javax.swing.*;
+
 @Slf4j
 class MessagePane extends JOptionPane {
 
@@ -90,9 +91,9 @@ class MessagePane extends JOptionPane {
 
             try {
                 int rowNumber = Integer.parseInt(textField.getText());
-                if (rowNumber > 16 || rowNumber < 1) {
+                if (rowNumber > 16 || rowNumber < 5) {
                     JOptionPane.showMessageDialog(this, "Количество рядов не может быть " +
-                            "меньше 1 или больше 16!", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                            "меньше 5 или больше 16!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 } else {
                     return rowNumber;
                 }
@@ -123,7 +124,7 @@ class MessagePane extends JOptionPane {
 
             try {
                 int columnNumber = Integer.parseInt(textField.getText());
-                if (columnNumber > 30 || columnNumber < 1) {
+                if (columnNumber > 30 || columnNumber < 5) {
                     JOptionPane.showMessageDialog(this, "Количество столбцов не может быть " +
                             "меньше 1 или больше 30!", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 } else {
@@ -157,7 +158,7 @@ class MessagePane extends JOptionPane {
 
             try {
                 int countMines = Integer.parseInt(textField.getText());
-                if (countMines > rowNumber * columnNumber || countMines < 1) {
+                if (countMines >= rowNumber * columnNumber || countMines < 1) {
                     JOptionPane.showMessageDialog(this, "Невозможно установить " +
                             "такое количество " + "мин на поле", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 } else {

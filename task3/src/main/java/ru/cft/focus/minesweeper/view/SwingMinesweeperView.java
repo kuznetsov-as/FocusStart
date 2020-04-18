@@ -83,6 +83,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
                     public void mousePressed(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             if (isFirstOpened[0]) {
+                                minesweeperController.initializeGameCells(cell.getRow(), cell.getColumn());
                                 minesweeperController.startTimer();
                                 isFirstOpened[0] = false;
                             }
@@ -190,7 +191,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
             messagePane.sayNoImageFound();
             return;
         }
-        if (code.equals(CellCode.MINE)){
+        if (code.equals(CellCode.MINE)) {
             cells[row][column].setBackground(Color.RED);
         }
         cells[row][column].setIcon(imageIconOpt.get());
