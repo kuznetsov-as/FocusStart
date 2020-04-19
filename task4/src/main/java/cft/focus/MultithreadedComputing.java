@@ -27,7 +27,7 @@ public class MultithreadedComputing {
             log.info("Время, затраченное на работу программы: " +
                     TimeUnit.NANOSECONDS.toMillis(time) + " мс.");
 
-        } catch (NumberFormatException | ParseException | InterruptedException e) {
+        } catch (ParseException | InterruptedException e) {
             System.err.println(e.getMessage());
             log.error(e.getMessage(), e);
             log.info("Выполнение программы завершено неудачно");
@@ -40,10 +40,10 @@ public class MultithreadedComputing {
 
         int firstNumberInTheRange = 1;
         int lastNumberInTheRange = commandLineArguments.getNumber() / commandLineArguments.getNumberOfThreads();
+        int gap = commandLineArguments.getNumber() / commandLineArguments.getNumberOfThreads();
         //Разбиваем на кусочки
         for (int i = 0; i < tasks.length; i++) {
             tasks[i] = new Task(firstNumberInTheRange, lastNumberInTheRange);
-            int gap = commandLineArguments.getNumber() / commandLineArguments.getNumberOfThreads();
             firstNumberInTheRange = lastNumberInTheRange + 1;
             //Когда доходим до предпоследнего элемента (task.length - 2) устанавливаем
             //lastNumberInTheRange в максимальное значение, чтобы присвоить его последнему элементу

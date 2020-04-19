@@ -24,8 +24,14 @@ public class CommandLineArgumentsTest {
     }
 
     @Test(expected = ParseException.class)
-    public void parsingArgument_throwsParseException_IfPassNoDigitStrings() throws ParseException {
-        String[] args = {"asd", "asd"};
+    public void parsingArgument_throwsParseException_IfPassNoDigitStringWithNumberOfThreads() throws ParseException {
+        String[] args = {"100000000", "asd"};
+        commandLineArguments.parseArguments(args);
+    }
+
+    @Test(expected = ParseException.class)
+    public void parsingArgument_throwsParseException_IfPassNoDigitStringWithNumber() throws ParseException {
+        String[] args = {"asd", "10"};
         commandLineArguments.parseArguments(args);
     }
 
