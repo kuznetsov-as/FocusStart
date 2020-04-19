@@ -4,9 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import ru.cft.focus.minesweeper.model.Record;
 
 import javax.swing.*;
+import java.io.*;
+import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 class MessagePane extends JOptionPane {
+
+    private IconRegistry iconRegistry = new IconRegistry();
 
     void sayNoImageFound() {
         log.info("Не удалось найти иконку");
@@ -15,13 +20,73 @@ class MessagePane extends JOptionPane {
     }
 
     void sayYouWin() {
+
+        //Получаем иконку
+        Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("pentagram");
+        if (!imageIconOpt.isPresent()) {
+            sayNoImageFound();
+            return;
+        }
+
         JOptionPane.showMessageDialog(this, "Поздравляю с победой!",
-                "Теперь зомби не доберутся до нас", JOptionPane.INFORMATION_MESSAGE);
+                "Теперь зомби не доберутся до нас", JOptionPane.INFORMATION_MESSAGE, imageIconOpt.get());
     }
 
     void sayYouLose() {
+
+        //Получаем иконку
+        Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("zombi");
+        if (!imageIconOpt.isPresent()) {
+            sayNoImageFound();
+            return;
+        }
+
         JOptionPane.showMessageDialog(this, "Тебя сожрали :(",
-                "Суровые реалии", JOptionPane.INFORMATION_MESSAGE);
+                "Суровые реалии", JOptionPane.INFORMATION_MESSAGE, imageIconOpt.get());
+    }
+
+    void showAbout() {
+        JTextArea textArea = new JTextArea(30, 45);
+        textArea.setEditable(false);
+
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        File about = new File((Objects.requireNonNull(classLoader.getResource("about/about.txt"))).getFile());
+
+        try(FileReader fileReader = new FileReader(about);
+            BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+
+            StringBuilder inputFile = new StringBuilder();
+            String textFieldReadable = bufferedReader.readLine();
+
+            while (textFieldReadable != null){
+                inputFile.append(textFieldReadable);
+                inputFile.append(System.lineSeparator());
+                textFieldReadable = bufferedReader.readLine();
+            }
+
+            textArea.setText(inputFile.toString());
+        } catch (FileNotFoundException e) {
+            log.info("Не удалось найти файл с правилами игры");
+            textArea.setText("Не удалось найти файл с правилами игры");
+        } catch (IOException e) {
+            log.info("Не удалось получить данные из файла с правилами игры");
+            textArea.setText("Не удалось получить данные из файла с правилами игры");
+        }
+
+        //Автоматическая прокрутка текстового поля вверх
+        textArea.setCaretPosition(0);
+
+        //Получаем иконку
+        Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("zombi");
+        if (!imageIconOpt.isPresent()) {
+            sayNoImageFound();
+            return;
+        }
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        JOptionPane.showMessageDialog(this, scrollPane,
+                "Об игре", JOptionPane.INFORMATION_MESSAGE,
+                imageIconOpt.get());
     }
 
     void showRecords(Record[] records) {
@@ -41,8 +106,19 @@ class MessagePane extends JOptionPane {
         textArea.setEditable(false);
         textArea.setText(stringRecords.toString());
         JScrollPane scrollPane = new JScrollPane(textArea);
+
+        //Автоматическая прокрутка текстового поля вверх
+        textArea.setCaretPosition(0);
+
+        //Получаем иконку
+        Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("pentagram");
+        if (!imageIconOpt.isPresent()) {
+            sayNoImageFound();
+            return;
+        }
+
         JOptionPane.showMessageDialog(this, scrollPane,
-                "Рекорды", JOptionPane.INFORMATION_MESSAGE);
+                "Рекорды", JOptionPane.INFORMATION_MESSAGE, imageIconOpt.get());
     }
 
     String askForAName() {
@@ -55,9 +131,16 @@ class MessagePane extends JOptionPane {
             JTextField textField = new JTextField(10);
             panel.add(textField);
 
+            //Получаем иконку
+            Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("question");
+            if (!imageIconOpt.isPresent()) {
+                sayNoImageFound();
+                return "-1";
+            }
+
             int selectedOption = JOptionPane.showOptionDialog(null, panel,
                     "Добавление в таблицу рекордов",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imageIconOpt.get(), options, options[0]);
 
             if (selectedOption == JOptionPane.CLOSED_OPTION) {
                 return "-1";
@@ -65,6 +148,9 @@ class MessagePane extends JOptionPane {
 
             if (textField.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Ты не ввел имя!",
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            } else if (textField.getText().length() > 12) {
+                JOptionPane.showMessageDialog(this, "Длина имени не должна превышать 12 символов",
                         "Ошибка", JOptionPane.ERROR_MESSAGE);
             } else {
                 return textField.getText();
@@ -82,9 +168,16 @@ class MessagePane extends JOptionPane {
             JTextField textField = new JTextField(2);
             panel.add(textField);
 
+            //Получаем иконку
+            Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("question");
+            if (!imageIconOpt.isPresent()) {
+                sayNoImageFound();
+                return -1;
+            }
+
             int selectedOption = JOptionPane.showOptionDialog(null, panel,
                     "Создание игры с собственными настройками",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imageIconOpt.get(), options, options[0]);
 
             if (selectedOption == JOptionPane.CLOSED_OPTION) {
                 return -1;
@@ -115,9 +208,16 @@ class MessagePane extends JOptionPane {
             JTextField textField = new JTextField(2);
             panel.add(textField);
 
+            //Получаем иконку
+            Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("question");
+            if (!imageIconOpt.isPresent()) {
+                sayNoImageFound();
+                return -1;
+            }
+
             int selectedOption = JOptionPane.showOptionDialog(null, panel,
                     "Создание игры с собственными настройками", JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                    JOptionPane.QUESTION_MESSAGE, imageIconOpt.get(), options, options[0]);
 
             if (selectedOption == JOptionPane.CLOSED_OPTION) {
                 return -1;
@@ -143,15 +243,22 @@ class MessagePane extends JOptionPane {
         while (true) {
 
             JPanel panel = new JPanel();
-            JLabel label = new JLabel("Введите количество мин:");
+            JLabel label = new JLabel("Введите количество зомби:");
             panel.add(label);
             String[] options = {"OK"};
             JTextField textField = new JTextField(2);
             panel.add(textField);
 
+            //Получаем иконку
+            Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("question");
+            if (!imageIconOpt.isPresent()) {
+                sayNoImageFound();
+                return -1;
+            }
+
             int selectedOption = JOptionPane.showOptionDialog(null, panel,
-                    "Создание игры с собственными настройками",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                    "Создание игры с собственными настройками", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, imageIconOpt.get(), options, options[0]);
 
             if (selectedOption == JOptionPane.CLOSED_OPTION) {
                 return -1;
@@ -161,7 +268,7 @@ class MessagePane extends JOptionPane {
                 int countMines = Integer.parseInt(textField.getText());
                 if (countMines >= rowNumber * columnNumber || countMines < 1) {
                     JOptionPane.showMessageDialog(this, "Невозможно установить " +
-                            "такое количество " + "мин на поле", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                            "такое количество " + "зомби на поле", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 } else {
                     return countMines;
                 }

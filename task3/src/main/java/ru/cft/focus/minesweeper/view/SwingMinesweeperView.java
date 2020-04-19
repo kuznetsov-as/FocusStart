@@ -31,7 +31,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
 
     public SwingMinesweeperView(MinesweeperController minesweeperController, int rowNumber,
                                 int columnNumber) {
-        super("Minesweeper");
+        super("Minesweeper: zombi");
         this.minesweeperController = minesweeperController;
         this.cells = new MinesweeperCell[rowNumber][columnNumber];
         this.timerLabel = new JLabel();
@@ -239,12 +239,13 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
                 minesweeperController.restartGame(GameSetting.CUSTOM);
                 gameSetting = GameSetting.CUSTOM;
                 break;
-
+            case "Об игре":
+                messagePane.showAbout();
+                break;
             case "Выход":
                 log.info("Пользователь вышел из игры");
                 minesweeperController.exit();
                 break;
-
             case "Для легких настроек":
                 messagePane.showRecords(minesweeperController.getRecords(GameSetting.EASY));
                 break;

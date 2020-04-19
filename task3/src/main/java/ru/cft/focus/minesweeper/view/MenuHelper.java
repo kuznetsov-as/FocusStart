@@ -28,10 +28,13 @@ class MenuHelper {
 
         menuGame.addSeparator();
 
+        JMenuItem about = new JMenuItem("Об игре");
+        about.addActionListener(view);
+        menuGame.add(about);
+
         JMenuItem exitGame = new JMenuItem("Выход");
         exitGame.addActionListener(view);
         menuGame.add(exitGame);
-
 
         JMenu menuRecords = new JMenu("Рекорды");
 
