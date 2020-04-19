@@ -1,0 +1,21 @@
+jar {
+    manifest {
+        attributes(
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version,
+                "Main-Class": "cft.focus.MultithreadedComputing"
+        )
+    }
+
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.4'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.2'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '0.9.26'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+}
