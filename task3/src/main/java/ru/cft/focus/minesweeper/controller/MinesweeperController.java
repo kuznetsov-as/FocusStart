@@ -44,6 +44,10 @@ public class MinesweeperController {
         return timer.initTextAreaWithTimer();
     }
 
+    public int numberOfRemainingMines() {
+        return minesweeperGame.getCountFlags();
+    }
+
     public void startTimer() {
         timer.startTimer();
     }

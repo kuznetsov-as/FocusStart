@@ -3,6 +3,7 @@ package ru.cft.focus.minesweeper.model;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,15 +13,19 @@ public class Timer implements ActionListener {
     private int second = 0;
     private int minutes = 0;
     private javax.swing.Timer timer = new javax.swing.Timer(1000, this);
-    private JTextArea textArea;
+    private JTextArea textAreaWithTimer;
 
     public JTextArea initTextAreaWithTimer() {
+        textAreaWithTimer = new JTextArea();
 
-        textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setBorder(BorderFactory.createEmptyBorder());
+        //Устанавливаем фон текстового поля в цвет окна игры
+        textAreaWithTimer.setBackground(new Color(238, 238, 238));
 
-        return textArea;
+        textAreaWithTimer.setText("Время: 0:0");
+        textAreaWithTimer.setEditable(false);
+        textAreaWithTimer.setBorder(BorderFactory.createEmptyBorder());
+
+        return textAreaWithTimer;
     }
 
     public void startTimer() {
@@ -36,7 +41,7 @@ public class Timer implements ActionListener {
     }
 
     public String getTime() {
-        return textArea.getText();
+        return textAreaWithTimer.getText().replace("Время: ", "");
     }
 
     @Override
@@ -46,6 +51,6 @@ public class Timer implements ActionListener {
             second = 0;
             minutes++;
         }
-        textArea.setText(minutes + ":" + second);
+        textAreaWithTimer.setText("Время: " + minutes + ":" + second);
     }
 }

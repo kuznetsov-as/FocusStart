@@ -5,6 +5,7 @@ import ru.cft.focus.minesweeper.model.Record;
 
 import javax.swing.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -52,13 +53,13 @@ class MessagePane extends JOptionPane {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         File about = new File((Objects.requireNonNull(classLoader.getResource("about/about.txt"))).getFile());
 
-        try(FileReader fileReader = new FileReader(about);
-            BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(about), StandardCharsets.UTF_8))) {
 
             StringBuilder inputFile = new StringBuilder();
             String textFieldReadable = bufferedReader.readLine();
 
-            while (textFieldReadable != null){
+            while (textFieldReadable != null) {
                 inputFile.append(textFieldReadable);
                 inputFile.append(System.lineSeparator());
                 textFieldReadable = bufferedReader.readLine();

@@ -11,7 +11,10 @@ public enum DisplaySetting {
     CELL_WIDTH(ACTIVE_CELL_WIDTH.size + WIDTH_GAP.size),
     CELL_HEIGHT(ACTIVE_CELL_HEIGHT.size + HEIGHT_GAP.size),
 
-    ACTIVE_PLAYER_PANEL_HEIGHT(100);
+    GAME_INFO_PANEL_HEIGHT(100),
+    TIME_PANEL_HEIGHT(25),
+    NUMBER_OF_MINES_PANEL_HEIGHT(25);
+
 
     private int size;
 

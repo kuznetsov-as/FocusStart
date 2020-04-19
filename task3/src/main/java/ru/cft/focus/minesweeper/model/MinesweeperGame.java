@@ -287,6 +287,11 @@ public class MinesweeperGame {
         viewNotifier.notifyViewsRestartGame(gameSetting);
     }
 
+
+    public int getCountFlags() {
+        return countFlags;
+    }
+
     private void countMineNeighbors() {
         for (GameCell[] cellRow : gameCells) {
             for (GameCell cell : cellRow) {

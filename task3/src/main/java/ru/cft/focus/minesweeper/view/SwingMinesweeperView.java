@@ -24,7 +24,10 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
 
     private JPanel cellPanel;
     private JLabel timerLabel;
+    private JLabel numberOfMinesLabel;
     private JPanel timerPanel;
+    private JPanel numberOfMinesPanel;
+    private JTextArea textAreaWithRemainingMines = new JTextArea();
 
     private GameSetting gameSetting = GameSetting.EASY;
 
@@ -35,7 +38,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         this.minesweeperController = minesweeperController;
         this.cells = new MinesweeperCell[rowNumber][columnNumber];
         this.timerLabel = new JLabel();
-
+        this.numberOfMinesLabel = new JLabel();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(true);
@@ -47,7 +50,8 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         generateCell(rowNumber, columnNumber);
         initMenuBar();
 
-        setTimerLabel(columnNumber);
+        setTimerPanel(columnNumber);
+        setNumberOfMinesPanel(columnNumber);
 
         setVisible(true);
         setLocationRelativeTo(null);
@@ -65,7 +69,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
 
     private int calcHeight(int rowNumber) {
         return rowNumber * DisplaySetting.CELL_HEIGHT.getSize() +
-                DisplaySetting.ACTIVE_PLAYER_PANEL_HEIGHT.getSize();
+                DisplaySetting.GAME_INFO_PANEL_HEIGHT.getSize();
     }
 
     private void generateCell(int rowNumber, int columnNumber) {
@@ -101,6 +105,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
                             if (!isFirstOpened[0]) {
                                 minesweeperController.handleClickedRightButtonOnCell(cell.getRow(),
                                         cell.getColumn());
+                                updateNumberOfMinesPanel();
                             }
                         }
                     }
@@ -111,16 +116,37 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         }
     }
 
-    private void setTimerLabel(int columnNumber) {
+    private void setTimerPanel(int columnNumber) {
         timerPanel = new JPanel();
         timerPanel.setLayout(new FlowLayout());
-        timerPanel.setPreferredSize(new Dimension(columnNumber * DisplaySetting.CELL_WIDTH.getSize(),
-                DisplaySetting.ACTIVE_PLAYER_PANEL_HEIGHT.getSize()));
+        //Делим ширину на 2, т.к. помимо панели с таймером нужно место для панели с количеством мин
+        timerPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 2,
+                DisplaySetting.TIME_PANEL_HEIGHT.getSize()));
 
         timerPanel.add(minesweeperController.initTextAreaWithTimer());
 
         timerPanel.add(timerLabel);
         add(timerPanel);
+    }
+
+    private void setNumberOfMinesPanel(int columnNumber) {
+        numberOfMinesPanel = new JPanel();
+        numberOfMinesPanel.setLayout(new FlowLayout());
+        //Делим ширину на 2, т.к. помимо панели с количеством мин нужно место для панели с таймером
+        numberOfMinesPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 2,
+                DisplaySetting.NUMBER_OF_MINES_PANEL_HEIGHT.getSize()));
+
+        updateNumberOfMinesPanel();
+        //Устанавливаем фон текстового поля в цвет окна игры
+        textAreaWithRemainingMines.setBackground(new Color(238, 238, 238));
+        numberOfMinesPanel.add(textAreaWithRemainingMines);
+        textAreaWithRemainingMines.setEditable(false);
+        numberOfMinesPanel.add(numberOfMinesLabel);
+        add(numberOfMinesPanel);
+    }
+
+    private void updateNumberOfMinesPanel() {
+        textAreaWithRemainingMines.setText("Зомби: " + minesweeperController.numberOfRemainingMines());
     }
 
     private void setGameGridPanel(int rowNumber, int columnNumber) {
@@ -136,13 +162,14 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
     public void renderRestartGame(GameSetting gameSetting) {
         this.remove(cellPanel);
         this.remove(timerPanel);
-
+        this.remove(numberOfMinesPanel);
 
         cells = new MinesweeperCell[gameSetting.getRowNumber()][gameSetting.getColumnNumber()];
 
         setGameGridPanel(gameSetting.getRowNumber(), gameSetting.getColumnNumber());
         generateCell(gameSetting.getRowNumber(), gameSetting.getColumnNumber());
-        setTimerLabel(gameSetting.getColumnNumber());
+        setTimerPanel(gameSetting.getColumnNumber());
+        setNumberOfMinesPanel(gameSetting.getColumnNumber());
 
         setSize(calcWidth(gameSetting.getColumnNumber()), calcHeight(gameSetting.getRowNumber()));
 
