@@ -34,7 +34,6 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         super("Minesweeper");
         this.minesweeperController = minesweeperController;
         this.cells = new MinesweeperCell[rowNumber][columnNumber];
-
         this.timerLabel = new JLabel();
 
 

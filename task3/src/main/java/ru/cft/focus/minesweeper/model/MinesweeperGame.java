@@ -125,14 +125,15 @@ public class MinesweeperGame {
 
         log.info("Была открыта ячейка с координатами: строка - " + row + " столбец - " + column);
 
-        if (gameCells[row][column].isFlag || isGameStopped || gameCells[row][column].isOpen) {
+        if (gameCells[row][column].isFlag || gameCells[row][column].isQuestion || isGameStopped ||
+                gameCells[row][column].isOpen) {
             return;
         }
 
         if (gameCells[row][column].isMine) {
             viewNotifier.notifyViewAboutCellStatusChanged(row, column, CellType.MINE);
 
-
+            //Открываем все мины на поле
             for (GameCell[] cellRow : gameCells) {
                 for (GameCell cell : cellRow) {
                     if (cell.isMine) {

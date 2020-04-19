@@ -31,6 +31,7 @@ class MessagePane extends JOptionPane {
             stringRecords.append("Пока никто не побеждал!");
         } else {
             for (int i = 0; i < records.length; i++) {
+                // Прибавляем 1, чтобы пропустить нулевое значение
                 stringRecords.append(i + 1).append(": ").append(records[i].getName()).append(" - ").append(records[i].getTime());
                 stringRecords.append(System.lineSeparator());
             }
