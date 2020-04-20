@@ -132,6 +132,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
     }
 
     private void setRestartButton(int columnNumber) {
+
         restartButton = new JButton();
         restartButton.setLayout(new FlowLayout());
         restartButton.addActionListener(e -> minesweeperController.restartGame(gameSetting));
