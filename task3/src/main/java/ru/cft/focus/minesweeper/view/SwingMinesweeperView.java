@@ -28,6 +28,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
     private JPanel timerPanel;
     private JPanel numberOfMinesPanel;
     private JTextArea textAreaWithRemainingMines = new JTextArea();
+    private JButton restartButton;
 
     private GameSetting gameSetting = GameSetting.EASY;
 
@@ -51,6 +52,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         initMenuBar();
 
         setTimerPanel(columnNumber);
+        setRestartButton(columnNumber);
         setNumberOfMinesPanel(columnNumber);
 
         setVisible(true);
@@ -119,8 +121,8 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
     private void setTimerPanel(int columnNumber) {
         timerPanel = new JPanel();
         timerPanel.setLayout(new FlowLayout());
-        //Делим ширину на 2, т.к. помимо панели с таймером нужно место для панели с количеством мин
-        timerPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 2,
+        //Делим ширину на 3, т.к. помимо панели с таймером нужно место для панели с количеством мин и кнопки рестарта
+        timerPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 3,
                 DisplaySetting.TIME_PANEL_HEIGHT.getSize()));
 
         timerPanel.add(minesweeperController.initTextAreaWithTimer());
@@ -129,11 +131,31 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         add(timerPanel);
     }
 
+    private void setRestartButton(int columnNumber) {
+        restartButton = new JButton();
+        restartButton.setLayout(new FlowLayout());
+        restartButton.addActionListener(e -> minesweeperController.restartGame(gameSetting));
+
+        //Получаем иконку для кнопки
+        Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("restart");
+        if (!imageIconOpt.isPresent()) {
+            messagePane.sayNoImageFound();
+            return;
+        }
+        restartButton.setIcon(imageIconOpt.get());
+
+        //Делим ширину на 3, т.к. помимо кнопки тут будет панель с таймером и панель с количеством мин
+        restartButton.setSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 3,
+                DisplaySetting.RESTART_BUTTON_HEIGHT.getSize()));
+
+        add(restartButton);
+    }
+
     private void setNumberOfMinesPanel(int columnNumber) {
         numberOfMinesPanel = new JPanel();
         numberOfMinesPanel.setLayout(new FlowLayout());
-        //Делим ширину на 2, т.к. помимо панели с количеством мин нужно место для панели с таймером
-        numberOfMinesPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 2,
+        //Делим ширину на 2, т.к. помимо панели с количеством мин нужно место для панели с таймером и кнопки рестарта
+        numberOfMinesPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 3,
                 DisplaySetting.NUMBER_OF_MINES_PANEL_HEIGHT.getSize()));
 
         updateNumberOfMinesPanel();
@@ -162,6 +184,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
     public void renderRestartGame(GameSetting gameSetting) {
         this.remove(cellPanel);
         this.remove(timerPanel);
+        this.remove(restartButton);
         this.remove(numberOfMinesPanel);
 
         cells = new MinesweeperCell[gameSetting.getRowNumber()][gameSetting.getColumnNumber()];
@@ -169,6 +192,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         setGameGridPanel(gameSetting.getRowNumber(), gameSetting.getColumnNumber());
         generateCell(gameSetting.getRowNumber(), gameSetting.getColumnNumber());
         setTimerPanel(gameSetting.getColumnNumber());
+        setRestartButton(gameSetting.getColumnNumber());
         setNumberOfMinesPanel(gameSetting.getColumnNumber());
 
         setSize(calcWidth(gameSetting.getColumnNumber()), calcHeight(gameSetting.getRowNumber()));

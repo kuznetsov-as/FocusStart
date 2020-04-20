@@ -10,6 +10,9 @@ class IconRegistry {
 
     IconRegistry() {
 
+        cellIconMap.put("restart", new ImageIcon(
+                IconRegistry.class.getResource("/images/restart.png")));
+
         cellIconMap.put("pentagram", new ImageIcon(
                 IconRegistry.class.getResource("/images/flag.png")));
 
