@@ -1,5 +1,7 @@
 package ru.cft.focus.minesweeper.view;
 
+import lombok.Getter;
+
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,9 +9,10 @@ import java.util.Optional;
 
 class IconRegistry {
     private final Map<String, ImageIcon> cellIconMap = new HashMap<>();
+    @Getter
+    private final Map<Integer, String> openedCellCodeMap = new HashMap<>();
 
     IconRegistry() {
-
         cellIconMap.put("restart", new ImageIcon(
                 IconRegistry.class.getResource("/images/restart.png")));
 
@@ -22,37 +25,18 @@ class IconRegistry {
         cellIconMap.put("grave", new ImageIcon(
                 IconRegistry.class.getResource("/images/grave.png")));
 
-        cellIconMap.put("zombi", new ImageIcon(
-                IconRegistry.class.getResource("/images/zombi.png")));
+        cellIconMap.put("zombie", new ImageIcon(
+                IconRegistry.class.getResource("/images/zombie.png")));
 
-        cellIconMap.put("open grave", new ImageIcon(
-                IconRegistry.class.getResource("/images/open_grave.png")));
+        for (int i = 0; i < 9; i++) {
+            cellIconMap.put("open grave with the number " + i, new ImageIcon(
+                    IconRegistry.class.getResource("/images/grave-" + i + ".png")));
+        }
 
-        cellIconMap.put("open grave with the number 1", new ImageIcon(
-                IconRegistry.class.getResource("/images/grave-1.png")));
-
-        cellIconMap.put("open grave with the number 2", new ImageIcon(
-                IconRegistry.class.getResource("/images/grave-2.png")));
-
-        cellIconMap.put("open grave with the number 3", new ImageIcon(
-                IconRegistry.class.getResource("/images/grave-3.png")));
-
-        cellIconMap.put("open grave with the number 4", new ImageIcon(
-                IconRegistry.class.getResource("/images/grave-4.png")));
-
-        cellIconMap.put("open grave with the number 5", new ImageIcon(
-                IconRegistry.class.getResource("/images/grave-5.png")));
-
-        cellIconMap.put("open grave with the number 6", new ImageIcon(
-                IconRegistry.class.getResource("/images/grave-6.png")));
-
-        cellIconMap.put("open grave with the number 7", new ImageIcon(
-                IconRegistry.class.getResource("/images/grave-7.png")));
-
-        cellIconMap.put("open grave with the number 8", new ImageIcon(
-                IconRegistry.class.getResource("/images/grave-8.png")));
+        for (int i = 0; i < 9; i++) {
+            openedCellCodeMap.put(i, "open grave with the number " + i);
+        }
     }
-
 
     Optional<ImageIcon> getImageForCell(String code) {
         return Optional.ofNullable(cellIconMap.get(code));

@@ -12,70 +12,59 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
 public class SwingMinesweeperView extends JFrame implements MinesweeperView, ActionListener {
 
-    private final IconRegistry iconRegistry = new IconRegistry();
-    private final MessagePane messagePane = new MessagePane();
-    private final MinesweeperController minesweeperController;
     private MinesweeperCell[][] cells;
-
-    private JPanel cellPanel;
-    private JLabel timerLabel;
-    private JLabel numberOfMinesLabel;
-    private JPanel timerPanel;
-    private JPanel numberOfMinesPanel;
-    private JTextArea textAreaWithRemainingMines = new JTextArea();
-    private JButton restartButton;
-
     private GameSetting gameSetting = GameSetting.EASY;
 
+    private JPanel cellPanel;
+    private JPanel timerPanel;
+    private JButton restartButton;
+    private JPanel numberOfMinesPanel;
+    private final JLabel timerLabel;
+    private final JLabel numberOfMinesLabel;
+    private final JTextArea textAreaWithRemainingMines = new JTextArea();
+    private final JTextArea textAreaWithTimer = new JTextArea();
 
-    public SwingMinesweeperView(MinesweeperController minesweeperController, int rowNumber,
-                                int columnNumber) {
-        super("Minesweeper: zombi");
+    private final IconRegistry iconRegistry = new IconRegistry();
+    private final InterrogativeMessagePane interrogativeMessagePane = new InterrogativeMessagePane();
+    private final NotificationMessagePane notificationMessagePane = new NotificationMessagePane();
+    private final DemonstrationMessagePane demonstrationMessagePane = new DemonstrationMessagePane();
+    private final MinesweeperController minesweeperController;
+
+    public SwingMinesweeperView(MinesweeperController minesweeperController) {
+        super("Minesweeper: zombie");
         this.minesweeperController = minesweeperController;
-        this.cells = new MinesweeperCell[rowNumber][columnNumber];
         this.timerLabel = new JLabel();
         this.numberOfMinesLabel = new JLabel();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(true);
         setLayout(new FlowLayout());
-        setSize(calcWidth(columnNumber), calcHeight(rowNumber));
         setBackground(Color.BLACK);
 
-        setGameGridPanel(rowNumber, columnNumber);
-        generateCell(rowNumber, columnNumber);
         initMenuBar();
 
-        setTimerPanel(columnNumber);
-        setRestartButton(columnNumber);
-        setNumberOfMinesPanel(columnNumber);
-
         setVisible(true);
-        setLocationRelativeTo(null);
     }
 
     private void initMenuBar() {
         MenuHelper.initGameMenu(this);
     }
 
-
     private int calcWidth(int columnNumber) {
-        return columnNumber * DisplaySetting.CELL_WIDTH.getSize() +
-                DisplaySetting.CELL_WIDTH.getSize();
+        return columnNumber * DisplaySetting.CELL_WIDTH + DisplaySetting.CELL_WIDTH;
     }
 
     private int calcHeight(int rowNumber) {
-        return rowNumber * DisplaySetting.CELL_HEIGHT.getSize() +
-                DisplaySetting.GAME_INFO_PANEL_HEIGHT.getSize();
+        return rowNumber * DisplaySetting.CELL_HEIGHT + DisplaySetting.GAME_INFO_PANEL_HEIGHT;
     }
 
     private void generateCell(int rowNumber, int columnNumber) {
-        final boolean[] isFirstOpened = {true};
         for (int i = 0; i < rowNumber; i++) {
             for (int j = 0; j < columnNumber; j++) {
                 MinesweeperCell cell = new MinesweeperCell(i, j);
@@ -87,28 +76,15 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
                     @Override
                     public void mousePressed(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            if (isFirstOpened[0]) {
-                                minesweeperController.initializeGameCells(cell.getRow(), cell.getColumn());
-                                minesweeperController.startTimer();
-                                isFirstOpened[0] = false;
-                            }
-                            minesweeperController.handleClickedLeftButtonOnCell(cell.getRow(),
-                                    cell.getColumn());
+                            minesweeperController.handleClickedLeftButtonOnCell(cell.getRow(), cell.getColumn());
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON2) {
-                            if (!isFirstOpened[0]) {
-                                minesweeperController.handleClickedWheelButtonOnCell(cell.getRow(),
-                                        cell.getColumn());
-                            }
+                            minesweeperController.handleClickedWheelButtonOnCell(cell.getRow(), cell.getColumn());
                         }
 
                         if (e.getButton() == MouseEvent.BUTTON3) {
-                            if (!isFirstOpened[0]) {
-                                minesweeperController.handleClickedRightButtonOnCell(cell.getRow(),
-                                        cell.getColumn());
-                                updateNumberOfMinesPanel();
-                            }
+                            minesweeperController.handleClickedRightButtonOnCell(cell.getRow(), cell.getColumn());
                         }
                     }
                 });
@@ -122,32 +98,35 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         timerPanel = new JPanel();
         timerPanel.setLayout(new FlowLayout());
         //Делим ширину на 3, т.к. помимо панели с таймером нужно место для панели с количеством мин и кнопки рестарта
-        timerPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 3,
-                DisplaySetting.TIME_PANEL_HEIGHT.getSize()));
+        timerPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH) / 3,
+                DisplaySetting.TIME_PANEL_HEIGHT));
 
-        timerPanel.add(minesweeperController.initTextAreaWithTimer());
+        //Устанавливаем фон текстового поля в цвет окна игры
+        textAreaWithTimer.setBackground(new Color(238, 238, 238));
 
+        textAreaWithTimer.setEditable(false);
+        textAreaWithTimer.setBorder(BorderFactory.createEmptyBorder());
+        updateTimerPanel(0);
+        timerPanel.add(textAreaWithTimer);
         timerPanel.add(timerLabel);
         add(timerPanel);
     }
 
     private void setRestartButton(int columnNumber) {
-
         restartButton = new JButton();
         restartButton.setLayout(new FlowLayout());
-        restartButton.addActionListener(e -> minesweeperController.restartGame(gameSetting));
+        restartButton.addActionListener(e -> minesweeperController.handleClickedRestartButton(gameSetting));
 
-        //Получаем иконку для кнопки
         Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("restart");
         if (!imageIconOpt.isPresent()) {
-            messagePane.sayNoImageFound();
+            notificationMessagePane.sayNoImageFound();
             return;
         }
         restartButton.setIcon(imageIconOpt.get());
 
         //Делим ширину на 3, т.к. помимо кнопки тут будет панель с таймером и панель с количеством мин
-        restartButton.setSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 3,
-                DisplaySetting.RESTART_BUTTON_HEIGHT.getSize()));
+        restartButton.setSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH) / 3,
+                DisplaySetting.RESTART_BUTTON_HEIGHT));
 
         add(restartButton);
     }
@@ -155,11 +134,10 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
     private void setNumberOfMinesPanel(int columnNumber) {
         numberOfMinesPanel = new JPanel();
         numberOfMinesPanel.setLayout(new FlowLayout());
-        //Делим ширину на 2, т.к. помимо панели с количеством мин нужно место для панели с таймером и кнопки рестарта
-        numberOfMinesPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH.getSize()) / 3,
-                DisplaySetting.NUMBER_OF_MINES_PANEL_HEIGHT.getSize()));
+        //Делим ширину на 3, т.к. помимо панели с количеством мин нужно место для панели с таймером и кнопки рестарта
+        numberOfMinesPanel.setPreferredSize(new Dimension((columnNumber * DisplaySetting.CELL_WIDTH) / 3,
+                DisplaySetting.NUMBER_OF_MINES_PANEL_HEIGHT));
 
-        updateNumberOfMinesPanel();
         //Устанавливаем фон текстового поля в цвет окна игры
         textAreaWithRemainingMines.setBackground(new Color(238, 238, 238));
         numberOfMinesPanel.add(textAreaWithRemainingMines);
@@ -168,18 +146,23 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         add(numberOfMinesPanel);
     }
 
-    private void updateNumberOfMinesPanel() {
-        textAreaWithRemainingMines.setText("Зомби: " + minesweeperController.numberOfRemainingMines());
-    }
-
     private void setGameGridPanel(int rowNumber, int columnNumber) {
         cellPanel = new JPanel();
         cellPanel.setBackground(Color.BLACK);
-        cellPanel.setLayout(new GridLayout(rowNumber, columnNumber, DisplaySetting.WIDTH_GAP.getSize(),
-                DisplaySetting.HEIGHT_GAP.getSize()));
+        cellPanel.setLayout(new GridLayout(rowNumber, columnNumber, DisplaySetting.WIDTH_GAP,
+                DisplaySetting.HEIGHT_GAP));
         add(cellPanel);
     }
 
+    @Override
+    public void updateTimerPanel(int seconds) {
+        textAreaWithTimer.setText("Время: " + seconds + " сек.");
+    }
+
+    @Override
+    public void updateNumberOfMinesPanel(int numberOfRemainingMines) {
+        textAreaWithRemainingMines.setText("Зомби: " + numberOfRemainingMines);
+    }
 
     @Override
     public void renderRestartGame(GameSetting gameSetting) {
@@ -187,69 +170,84 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         this.remove(timerPanel);
         this.remove(restartButton);
         this.remove(numberOfMinesPanel);
-
-        cells = new MinesweeperCell[gameSetting.getRowNumber()][gameSetting.getColumnNumber()];
-
-        setGameGridPanel(gameSetting.getRowNumber(), gameSetting.getColumnNumber());
-        generateCell(gameSetting.getRowNumber(), gameSetting.getColumnNumber());
-        setTimerPanel(gameSetting.getColumnNumber());
-        setRestartButton(gameSetting.getColumnNumber());
-        setNumberOfMinesPanel(gameSetting.getColumnNumber());
-
-        setSize(calcWidth(gameSetting.getColumnNumber()), calcHeight(gameSetting.getRowNumber()));
-
-        renderNewGame();
+        renderNewGame(gameSetting.getRowNumber(), gameSetting.getColumnNumber());
 
         setLocationRelativeTo(null);
     }
 
     @Override
-    public void renderNewGame() {
+    public void renderNewGame(int rowNumber, int columnNumber) {
+        cells = new MinesweeperCell[rowNumber][columnNumber];
+        setSize(calcWidth(columnNumber), calcHeight(rowNumber));
+        setGameGridPanel(rowNumber, columnNumber);
+        generateCell(rowNumber, columnNumber);
+        setTimerPanel(columnNumber);
+        setRestartButton(columnNumber);
+        setNumberOfMinesPanel(columnNumber);
+
         for (MinesweeperCell[] cellRow : cells) {
             for (MinesweeperCell cell : cellRow) {
-                Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell("grave");
+                Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell(CellCode.CLOSED);
                 if (!imageIconOpt.isPresent()) {
-                    messagePane.sayNoImageFound();
+                    notificationMessagePane.sayNoImageFound();
                     return;
                 }
                 cell.setIcon(imageIconOpt.get());
             }
         }
+
+        setLocationRelativeTo(null);
     }
 
     @Override
     public void renderGameWon() {
-        minesweeperController.stopTimer();
-        messagePane.sayYouWin();
+        notificationMessagePane.sayYouWin();
+    }
 
+    @Override
+    public void renderNewRecord() {
         if (gameSetting != GameSetting.CUSTOM) {
-            String name = messagePane.askForAName();
+            String name = interrogativeMessagePane.askForName();
+            //Если пользователь закрыл окно с вводом имени, то не сообщаем модели о новом рекорде
             if (name.equals("-1")) {
                 return;
             }
-            String time = minesweeperController.askTimerForTime();
-            minesweeperController.writeRecord(name, time, gameSetting);
+            minesweeperController.handleRecordData(name, gameSetting);
         }
+    }
+
+    @Override
+    public void showRecords(Map<String, Integer> recordsMap) {
+        demonstrationMessagePane.showRecords(recordsMap);
+    }
+
+    @Override
+    public void showInformationAboutGameRules(String informationAboutGameRules) {
+        demonstrationMessagePane.showAbout(informationAboutGameRules);
     }
 
     @Override
     public void renderGameLose() {
-        minesweeperController.stopTimer();
-        messagePane.sayYouLose();
+        notificationMessagePane.sayYouLose();
     }
 
     @Override
     public void updateCell(int row, int column, String code) {
-
         Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell(code);
         if (!imageIconOpt.isPresent()) {
-            messagePane.sayNoImageFound();
+            notificationMessagePane.sayNoImageFound();
             return;
         }
+
         if (code.equals(CellCode.MINE)) {
             cells[row][column].setBackground(Color.RED);
         }
         cells[row][column].setIcon(imageIconOpt.get());
+    }
+
+    @Override
+    public void updateCell(int row, int column, int neighbourMineCount) {
+        updateCell(row, column, iconRegistry.getOpenedCellCodeMap().get(neighbourMineCount));
     }
 
     @Override
@@ -258,54 +256,61 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
 
         switch (command) {
             case "Легко":
-                minesweeperController.restartGame(GameSetting.EASY);
+                minesweeperController.handleClickedRestartButton(GameSetting.EASY);
                 gameSetting = GameSetting.EASY;
                 break;
             case "Средне":
-                minesweeperController.restartGame(GameSetting.MEDIUM);
+                minesweeperController.handleClickedRestartButton(GameSetting.MEDIUM);
                 gameSetting = GameSetting.MEDIUM;
                 break;
             case "Сложно":
-                minesweeperController.restartGame(GameSetting.HARD);
+                minesweeperController.handleClickedRestartButton(GameSetting.HARD);
                 gameSetting = GameSetting.HARD;
                 break;
             case "Свои настройки":
-                int rowNumber = messagePane.askForTheCountOfRows();
+                int rowNumber = interrogativeMessagePane.askForTheCountOfRows();
+                //-1 возвращается, если пользователь закрыл окно ввода
                 if (rowNumber == -1) {
                     break;
                 }
                 GameSetting.CUSTOM.setRowNumber(rowNumber);
 
-                int columnNumber = messagePane.askForTheCountOfColumns();
+                int columnNumber = interrogativeMessagePane.askForTheCountOfColumns();
+                //-1 возвращается, если пользователь закрыл окно ввода
                 if (columnNumber == -1) {
                     break;
                 }
                 GameSetting.CUSTOM.setColumnNumber(columnNumber);
 
-                int countMines = messagePane.askForTheCountOfMines(rowNumber, columnNumber);
+                int countMines = interrogativeMessagePane.askForTheCountOfMines(rowNumber, columnNumber);
+                //-1 возвращается, если пользователь закрыл окно ввода
                 if (countMines == -1) {
                     break;
                 }
                 GameSetting.CUSTOM.setCountMines(countMines);
 
-                minesweeperController.restartGame(GameSetting.CUSTOM);
+                minesweeperController.handleClickedRestartButton(GameSetting.CUSTOM);
                 gameSetting = GameSetting.CUSTOM;
                 break;
             case "Об игре":
-                messagePane.showAbout();
+                log.info("Произведен запрос правил игры");
+                minesweeperController.handleAboutDisplayRequest();
                 break;
             case "Выход":
                 log.info("Пользователь вышел из игры");
                 minesweeperController.exit();
                 break;
             case "Для легких настроек":
-                messagePane.showRecords(minesweeperController.getRecords(GameSetting.EASY));
+                log.info("Произведен запрос рекордов для настроек: " + GameSetting.EASY);
+                minesweeperController.handleRecordDisplayRequest(GameSetting.EASY);
                 break;
             case "Для средних настроек":
-                messagePane.showRecords(minesweeperController.getRecords(GameSetting.MEDIUM));
+                log.info("Произведен запрос рекордов для настроек: " + GameSetting.MEDIUM);
+                minesweeperController.handleRecordDisplayRequest(GameSetting.MEDIUM);
                 break;
             case "Для сложных настроек":
-                messagePane.showRecords(minesweeperController.getRecords(GameSetting.HARD));
+                log.info("Произведен запрос рекордов для настроек: " + GameSetting.HARD);
+                minesweeperController.handleRecordDisplayRequest(GameSetting.HARD);
                 break;
         }
     }

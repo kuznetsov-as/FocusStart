@@ -2,55 +2,41 @@ package ru.cft.focus.minesweeper.model;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class Timer implements ActionListener {
+public class Timer implements Runnable {
 
-    private int second = 0;
-    private int minutes = 0;
-    private javax.swing.Timer timer = new javax.swing.Timer(1000, this);
-    private JTextArea textAreaWithTimer;
+    private int seconds = 0;
+    private final MinesweeperViewNotifier viewNotifier;
+    private final ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
+    private ScheduledFuture<?> scheduledFuture;
 
-    public JTextArea initTextAreaWithTimer() {
-        textAreaWithTimer = new JTextArea();
-
-        //Устанавливаем фон текстового поля в цвет окна игры
-        textAreaWithTimer.setBackground(new Color(238, 238, 238));
-
-        textAreaWithTimer.setText("Время: 0:0");
-        textAreaWithTimer.setEditable(false);
-        textAreaWithTimer.setBorder(BorderFactory.createEmptyBorder());
-
-        return textAreaWithTimer;
+    Timer(MinesweeperViewNotifier viewNotifier) {
+        this.viewNotifier = viewNotifier;
     }
 
-    public void startTimer() {
-        timer.start();
+    void startTimer() {
+        seconds = 0;
+        scheduledFuture = timer.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
         log.info("Таймер запущен");
     }
 
-    public void stopTimer() {
-        second = 0;
-        minutes = 0;
-        timer.stop();
+    void stopTimer() {
+        scheduledFuture.cancel(false);
         log.info("Таймер остановлен");
     }
 
-    public String getTime() {
-        return textAreaWithTimer.getText().replace("Время: ", "");
+    int getTime() {
+        return seconds;
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        second++;
-        if (second > 60) {
-            second = 0;
-            minutes++;
-        }
-        textAreaWithTimer.setText("Время: " + minutes + ":" + second);
+    public void run() {
+        seconds++;
+        viewNotifier.notifyViewAboutTimerUpdate(seconds);
     }
 }

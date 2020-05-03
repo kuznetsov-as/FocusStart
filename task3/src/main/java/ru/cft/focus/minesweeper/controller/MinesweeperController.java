@@ -1,15 +1,10 @@
 package ru.cft.focus.minesweeper.controller;
 
 import ru.cft.focus.minesweeper.model.MinesweeperGame;
-import ru.cft.focus.minesweeper.model.Record;
-import ru.cft.focus.minesweeper.model.Timer;
 import ru.cft.focus.minesweeper.settings.GameSetting;
-
-import javax.swing.*;
 
 public class MinesweeperController {
     private final MinesweeperGame minesweeperGame;
-    private final Timer timer = new Timer();
 
     public MinesweeperController(MinesweeperGame minesweeperGame) {
         this.minesweeperGame = minesweeperGame;
@@ -27,44 +22,23 @@ public class MinesweeperController {
         minesweeperGame.openCell(row, column);
     }
 
-    public void initializeGameCells(int firstOpenCellRow, int firstOpenCellColumn) {
-        minesweeperGame.initializeGameCells(firstOpenCellRow, firstOpenCellColumn);
+    public void handleClickedRestartButton(GameSetting gameSetting) {
+        minesweeperGame.restartGame(gameSetting);
+    }
+
+    public void handleRecordDisplayRequest(GameSetting gameSetting) {
+        minesweeperGame.createRecordsMap(gameSetting);
+    }
+
+    public void handleAboutDisplayRequest() {
+        minesweeperGame.createStringWithInformationAboutGame();
+    }
+
+    public void handleRecordData(String name, GameSetting gameSetting) {
+        minesweeperGame.createNewRecord(name,gameSetting);
     }
 
     public void exit() {
         System.exit(0);
-    }
-
-    public void restartGame(GameSetting gameSetting) {
-        stopTimer();
-        minesweeperGame.restartGame(gameSetting);
-    }
-
-    public JTextArea initTextAreaWithTimer() {
-        return timer.initTextAreaWithTimer();
-    }
-
-    public int numberOfRemainingMines() {
-        return minesweeperGame.getCountFlags();
-    }
-
-    public void startTimer() {
-        timer.startTimer();
-    }
-
-    public void stopTimer() {
-        timer.stopTimer();
-    }
-
-    public String askTimerForTime() {
-        return timer.getTime();
-    }
-
-    public Record[] getRecords(GameSetting gameSetting) {
-        return minesweeperGame.getRecords(gameSetting);
-    }
-
-    public void writeRecord(String name, String time, GameSetting gameSetting) {
-        minesweeperGame.addRecord(name, time, gameSetting);
     }
 }

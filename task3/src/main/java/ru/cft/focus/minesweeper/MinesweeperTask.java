@@ -8,19 +8,18 @@ import ru.cft.focus.minesweeper.view.MinesweeperView;
 import ru.cft.focus.minesweeper.view.SwingMinesweeperView;
 
 @Slf4j
-public class MinesweeperSolver {
+public class MinesweeperTask {
     public static void main(String[] args) {
         log.info("Программа запущена");
-        new MinesweeperSolver().solve();
+        new MinesweeperTask().run();
     }
 
-    private void solve() {
-
+    private void run() {
         MinesweeperGame minesweeperGame = new MinesweeperGame(GameSetting.EASY.getRowNumber(), GameSetting.EASY.getColumnNumber(), GameSetting.EASY.getCountMines());
         MinesweeperController minesweeperController = new MinesweeperController(minesweeperGame);
-        MinesweeperView minesweeperView = new SwingMinesweeperView(minesweeperController, GameSetting.EASY.getRowNumber(), GameSetting.EASY.getColumnNumber());
+        MinesweeperView minesweeperView = new SwingMinesweeperView(minesweeperController);
 
         minesweeperGame.attachView(minesweeperView);
-        minesweeperGame.startNewGame();
+        minesweeperGame.startNewGame(GameSetting.EASY);
     }
 }

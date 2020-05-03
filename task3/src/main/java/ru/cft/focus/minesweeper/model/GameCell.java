@@ -1,17 +1,22 @@
 package ru.cft.focus.minesweeper.model;
 
-class GameCell {
-    final int row;
-    final int column;
-    boolean isFlag;
-    boolean isQuestion;
-    boolean isMine;
-    boolean isOpen;
-    int countMineNeighbors;
+import lombok.Getter;
+import lombok.Setter;
 
-    GameCell(int row, int column, boolean isMine) {
+@Getter
+@Setter
+class GameCell {
+    private final int row;
+    private final int column;
+    private boolean flag;
+    private boolean question;
+    private boolean mine;
+    private boolean open;
+    private int neighbourMineCount;
+
+    GameCell(int row, int column, boolean mine) {
         this.row = row;
         this.column = column;
-        this.isMine = isMine;
+        this.mine = mine;
     }
 }
