@@ -1,6 +1,9 @@
 package ru.cft.focus.minesweeper.api;
 
-public class CellCode {
+public final class CellCode {
+    private CellCode() {
+    }
+
     public static final String MINE = "zombie";
     public static final String FLAG = "pentagram";
     public static final String QUESTION = "question";

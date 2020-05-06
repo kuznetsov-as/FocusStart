@@ -1,6 +1,9 @@
 package ru.cft.focus.minesweeper.settings;
 
-public class DisplaySetting {
+public final class DisplaySetting {
+    private DisplaySetting() {
+    }
+
     private static final int ACTIVE_CELL_WIDTH = 40;
     private static final int ACTIVE_CELL_HEIGHT = 40;
 

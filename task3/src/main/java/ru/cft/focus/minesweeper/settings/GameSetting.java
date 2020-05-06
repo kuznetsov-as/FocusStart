@@ -1,9 +1,11 @@
 package ru.cft.focus.minesweeper.settings;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@AllArgsConstructor
 public enum GameSetting {
 
     EASY(9, 9, 10),
@@ -17,10 +19,4 @@ public enum GameSetting {
     private int columnNumber;
     @Setter
     private int countMines;
-
-    GameSetting(int rowNumber, int columnNumber, int countMines) {
-        this.rowNumber = rowNumber;
-        this.columnNumber = columnNumber;
-        this.countMines = countMines;
-    }
 }

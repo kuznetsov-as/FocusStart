@@ -92,7 +92,7 @@ class InterrogativeMessagePane extends MessagePane {
                 int countMines = Integer.parseInt(responseTextField.getText());
                 if (countMines >= rowNumber * columnNumber || countMines < 1) {
                     JOptionPane.showMessageDialog(this, "Невозможно установить " +
-                            "такое количество " + "зомби на поле", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                            "такое количество " + "зомби на кладбище", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 } else {
                     return countMines;
                 }

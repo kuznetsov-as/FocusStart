@@ -1,6 +1,7 @@
 package ru.cft.focus.minesweeper.view;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.cft.focus.minesweeper.api.ButtonNames;
 import ru.cft.focus.minesweeper.api.CellCode;
 import ru.cft.focus.minesweeper.controller.MinesweeperController;
 import ru.cft.focus.minesweeper.settings.DisplaySetting;
@@ -161,6 +162,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
 
     @Override
     public void updateNumberOfMinesPanel(int numberOfRemainingMines) {
+        log.info("Получено оповещение об измении количества оставшихся на кладбище зомби");
         textAreaWithRemainingMines.setText("Зомби: " + numberOfRemainingMines);
     }
 
@@ -177,6 +179,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
 
     @Override
     public void renderNewGame(int rowNumber, int columnNumber) {
+        log.info("Получено оповещение о начале новой игры");
         cells = new MinesweeperCell[rowNumber][columnNumber];
         setSize(calcWidth(columnNumber), calcHeight(rowNumber));
         setGameGridPanel(rowNumber, columnNumber);
@@ -218,11 +221,13 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
 
     @Override
     public void showRecords(Map<String, Integer> recordsMap) {
+        log.info("Получено оповещение о необходимости отобразить рекорды");
         demonstrationMessagePane.showRecords(recordsMap);
     }
 
     @Override
     public void showInformationAboutGameRules(String informationAboutGameRules) {
+        log.info("Получено оповещение о необходимости отобразить правила игры");
         demonstrationMessagePane.showAbout(informationAboutGameRules);
     }
 
@@ -233,6 +238,7 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
 
     @Override
     public void updateCell(int row, int column, String code) {
+        log.info("Получено оповещение об изменении иконки ячейки");
         Optional<ImageIcon> imageIconOpt = iconRegistry.getImageForCell(code);
         if (!imageIconOpt.isPresent()) {
             notificationMessagePane.sayNoImageFound();
@@ -255,19 +261,19 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
         String command = actionEvent.getActionCommand();
 
         switch (command) {
-            case "Легко":
+            case ButtonNames.GAME_WITH_EASY_SETTINGS:
                 minesweeperController.handleClickedRestartButton(GameSetting.EASY);
                 gameSetting = GameSetting.EASY;
                 break;
-            case "Средне":
+            case ButtonNames.GAME_WITH_MEDIUM_SETTINGS:
                 minesweeperController.handleClickedRestartButton(GameSetting.MEDIUM);
                 gameSetting = GameSetting.MEDIUM;
                 break;
-            case "Сложно":
+            case ButtonNames.GAME_WITH_HARD_SETTINGS:
                 minesweeperController.handleClickedRestartButton(GameSetting.HARD);
                 gameSetting = GameSetting.HARD;
                 break;
-            case "Свои настройки":
+            case ButtonNames.GAME_WITH_CUSTOM_SETTINGS:
                 int rowNumber = interrogativeMessagePane.askForTheCountOfRows();
                 //-1 возвращается, если пользователь закрыл окно ввода
                 if (rowNumber == -1) {
@@ -292,23 +298,23 @@ public class SwingMinesweeperView extends JFrame implements MinesweeperView, Act
                 minesweeperController.handleClickedRestartButton(GameSetting.CUSTOM);
                 gameSetting = GameSetting.CUSTOM;
                 break;
-            case "Об игре":
+            case ButtonNames.ABOUT:
                 log.info("Произведен запрос правил игры");
                 minesweeperController.handleAboutDisplayRequest();
                 break;
-            case "Выход":
+            case ButtonNames.EXIT:
                 log.info("Пользователь вышел из игры");
                 minesweeperController.exit();
                 break;
-            case "Для легких настроек":
+            case ButtonNames.EASY_RECORDS:
                 log.info("Произведен запрос рекордов для настроек: " + GameSetting.EASY);
                 minesweeperController.handleRecordDisplayRequest(GameSetting.EASY);
                 break;
-            case "Для средних настроек":
+            case ButtonNames.MEDIUM_RECORDS:
                 log.info("Произведен запрос рекордов для настроек: " + GameSetting.MEDIUM);
                 minesweeperController.handleRecordDisplayRequest(GameSetting.MEDIUM);
                 break;
-            case "Для сложных настроек":
+            case ButtonNames.HARD_RECORDS:
                 log.info("Произведен запрос рекордов для настроек: " + GameSetting.HARD);
                 minesweeperController.handleRecordDisplayRequest(GameSetting.HARD);
                 break;
