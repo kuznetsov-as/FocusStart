@@ -1,5 +1,7 @@
 package ru.cft.focus.minesweeper.view;
 
+import ru.cft.focus.minesweeper.api.ButtonNames;
+
 import javax.swing.*;
 
 class MenuHelper {
@@ -8,45 +10,45 @@ class MenuHelper {
 
 
         JMenuBar menuBar = new JMenuBar();
-        JMenu menuGame = new JMenu("Игра");
+        JMenu menuGame = new JMenu(ButtonNames.GAME);
 
-        JMenuItem newEasyGame = new JMenuItem("Легко");
+        JMenuItem newEasyGame = new JMenuItem(ButtonNames.GAME_WITH_EASY_SETTINGS);
         newEasyGame.addActionListener(view);
         menuGame.add(newEasyGame);
 
-        JMenuItem newMediumGame = new JMenuItem("Средне");
+        JMenuItem newMediumGame = new JMenuItem(ButtonNames.GAME_WITH_MEDIUM_SETTINGS);
         newMediumGame.addActionListener(view);
         menuGame.add(newMediumGame);
 
-        JMenuItem newHardGame = new JMenuItem("Сложно");
+        JMenuItem newHardGame = new JMenuItem(ButtonNames.GAME_WITH_HARD_SETTINGS);
         newHardGame.addActionListener(view);
         menuGame.add(newHardGame);
 
-        JMenuItem newCustomSettingsGame = new JMenuItem("Свои настройки");
+        JMenuItem newCustomSettingsGame = new JMenuItem(ButtonNames.GAME_WITH_CUSTOM_SETTINGS);
         newCustomSettingsGame.addActionListener(view);
         menuGame.add(newCustomSettingsGame);
 
         menuGame.addSeparator();
 
-        JMenuItem about = new JMenuItem("Об игре");
+        JMenuItem about = new JMenuItem(ButtonNames.ABOUT);
         about.addActionListener(view);
         menuGame.add(about);
 
-        JMenuItem exitGame = new JMenuItem("Выход");
+        JMenuItem exitGame = new JMenuItem(ButtonNames.EXIT);
         exitGame.addActionListener(view);
         menuGame.add(exitGame);
 
-        JMenu menuRecords = new JMenu("Рекорды");
+        JMenu menuRecords = new JMenu(ButtonNames.RECORDS);
 
-        JMenuItem easyRecords = new JMenuItem("Для легких настроек");
+        JMenuItem easyRecords = new JMenuItem(ButtonNames.EASY_RECORDS);
         easyRecords.addActionListener(view);
         menuRecords.add(easyRecords);
 
-        JMenuItem mediumRecords = new JMenuItem("Для средних настроек");
+        JMenuItem mediumRecords = new JMenuItem(ButtonNames.MEDIUM_RECORDS);
         mediumRecords.addActionListener(view);
         menuRecords.add(mediumRecords);
 
-        JMenuItem hardRecords = new JMenuItem("Для сложных настроек");
+        JMenuItem hardRecords = new JMenuItem(ButtonNames.HARD_RECORDS);
         hardRecords.addActionListener(view);
         menuRecords.add(hardRecords);
 

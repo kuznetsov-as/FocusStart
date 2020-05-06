@@ -21,6 +21,6 @@ public class Record implements Serializable, Comparable<Record> {
 
     @Override
     public int compareTo(Record record) {
-        return this.time - record.time;
+        return Integer.compare(this.time, record.time);
     }
 }

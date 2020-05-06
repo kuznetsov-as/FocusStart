@@ -15,7 +15,9 @@ public class MinesweeperTask {
     }
 
     private void run() {
-        MinesweeperGame minesweeperGame = new MinesweeperGame(GameSetting.EASY.getRowNumber(), GameSetting.EASY.getColumnNumber(), GameSetting.EASY.getCountMines());
+        MinesweeperGame minesweeperGame = new MinesweeperGame(GameSetting.EASY.getRowNumber(),
+                GameSetting.EASY.getColumnNumber(),
+                GameSetting.EASY.getCountMines());
         MinesweeperController minesweeperController = new MinesweeperController(minesweeperGame);
         MinesweeperView minesweeperView = new SwingMinesweeperView(minesweeperController);
 
