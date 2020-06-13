@@ -1,0 +1,22 @@
+jar {
+    manifest {
+        attributes(
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version,
+                "Main-Class": "cft.focus.client.ClientTask"
+        )
+    }
+
+    from {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    implementation project(':task6:common')
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.2'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '0.9.26'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+}
